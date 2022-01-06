@@ -38,8 +38,8 @@ params:
         lastUpdated: Jan 02, 2006 15:04 MST
 
     sidebar:
-        emoji: 🍥
-        subtitle: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        emoji: 👨‍💻
+        subtitle: Don’t worry if it doesn’t work right. If everything did, you’d be out of a job.
         avatar:
             enabled: true
             local: true
@@ -48,14 +48,14 @@ params:
     article:
         math: false
         toc: true
-        readingTime: true
+        readingTime: false
         license:
-            enabled: true
+            enabled: false
             default: Licensed under CC BY-NC-SA 4.0
 
     comments:
         enabled: true
-        provider: disqus
+        provider: utterances
 
         disqusjs:
             shortname:
@@ -65,8 +65,8 @@ params:
             adminLabel:
 
         utterances:
-            repo:
-            issueTerm: pathname
+            repo: "jun7680/utterances"
+            issueTerm: "title"
             label:
 
         remark42:
@@ -176,7 +176,7 @@ menu:
           weight: -100
           params:
               ### For demonstration purpose, the home link will be open in a new tab
-              newTab: true
+              newTab: false
               icon: home
     
     social:
@@ -186,11 +186,18 @@ menu:
           params:
             icon: brand-github
             
-        - identifier: twitter
-          name: Twitter
-          url: https://twitter.com
+        - identifier: instagram
+          name: Instagram
+          url: https://instagram.com/ockkkk91
           params:
-            icon: brand-twitter
+              icon: brand-insta
+            
+            
+#        - identifier: twitter
+#          name: Twitter
+#          url: https://twitter.com
+#          params:
+#            icon: brand-twitter
 
 related:
     includeNewer: true
