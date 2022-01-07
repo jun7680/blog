@@ -24,8 +24,17 @@ In some implementations of ReactiveX, there is also something called a “Connec
 
 아는 단어 총 동원해서 보면 hot, cold의 차이점은 구독 시점에 따른 아이템 방출 방법 이라고 되어 있다.
 
-Hot🔥 은 구독하는 순간부터 즉 이전 이벤트들은 무시하고 구도된 순간부터 다음 아이템들이 방출되고(ex: 라이브 방송)  
-Cold❄️ 는 구독하는 순간 이전 이벤트들을 처음 부터 끝까지 전부 전달해 준다(ex: VOD).
+Hot🔥 은 생성됨과 동시에 아이템을 방출하고 나중에 구독한 옵저버는 이전값을 받을수 없고(ex: 라이브 방송)  
+Cold❄️ 는 옵저버가 구독하기 전에 발생한 아이템에 대해 받아볼 수 있다.(ex: VOD).
 
 다시말해 Hot은 구독 이후 발생한 아이템들에 대한 방출이 이루어 지고, Cold는 구독 시점 이전에 발생한 아이템들도 방출해준다고 되어있다.  
 ~~(잘못된 점 있으면 댓글 부탁드립니다)~~
+
+#### Hot Observable
+- Timer, Subject, UIEvent 등등
+
+#### Cold Observable
+- Single, junt, of 등등 컴포넌트
+
+
+~~Operator들에 대해 더 자세히 알아봐야겠다.~~
