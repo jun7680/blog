@@ -2,7 +2,7 @@ baseurl: https://jun7680.github.io
 languageCode: en-us
 theme: hugo-theme-stack
 paginate: 5
-title: Ock
+title: 오깅중
 
 # Change it to your Disqus shortname before using
 disqusShortname: hugo-theme-stack
@@ -43,12 +43,12 @@ params:
         avatar:
             enabled: true
             local: true
-            src: img/avatar.png
+            src: img/avatar.jpeg
 
     article:
         math: false
         toc: true
-        readingTime: false
+        readingTime: true
         license:
             enabled: false
             default: Licensed under CC BY-NC-SA 4.0
