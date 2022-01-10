@@ -8,7 +8,7 @@ title: 오깅중
 disqusShortname: hugo-theme-stack
 
 # GA Tracking ID
-googleAnalytics:
+googleAnalytics: UA-140543281-1
 
 # Theme i18n support
 # Available values: en, fr, id, ja, ko, pt-br, zh-cn, zh-tw, es, de, nl, it, th, el, uk
@@ -182,7 +182,7 @@ menu:
     social:
         - identifier: github
           name: GitHub
-          url: https://github.com/CaiJimmy/hugo-theme-stack
+          url: https://github.com/jun7680
           params:
             icon: brand-github
             
@@ -191,13 +191,6 @@ menu:
           url: https://instagram.com/ockkkk91
           params:
               icon: brand-insta
-            
-            
-#        - identifier: twitter
-#          name: Twitter
-#          url: https://twitter.com
-#          params:
-#            icon: brand-twitter
 
 related:
     includeNewer: true
