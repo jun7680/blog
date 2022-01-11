@@ -4,10 +4,11 @@ title = "Hot Observable, Cold Observable"
 date = "2022-01-07"
 description = "Observable에 대해 알아보자!"
 categories = [    
-    "Observable"
+    "Swift"
 ]
 tags = [
-    "RxSwift"
+    "RxSwift",
+    "Observable"
 ]
 image = "Observable.png"
 +++
