@@ -2,7 +2,7 @@
 
 author = "오깅중"
 
-title = "Fastlane을 적용해보자"
+title = "iOS Fastlane을 적용해보자"
 
 date = "2022-03-03"
 
