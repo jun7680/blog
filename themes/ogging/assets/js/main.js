@@ -123,3 +123,46 @@
     }
   });
 })();
+
+(function mailtoCopy() {
+  var toast;
+  function showToast(msg) {
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.className = 'toast';
+      document.body.appendChild(toast);
+    }
+    toast.textContent = msg;
+    toast.classList.add('toast--visible');
+    clearTimeout(toast._t);
+    toast._t = setTimeout(function () { toast.classList.remove('toast--visible'); }, 2200);
+  }
+  function copyText(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      return navigator.clipboard.writeText(text);
+    }
+    return new Promise(function (resolve, reject) {
+      try {
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        resolve();
+      } catch (err) { reject(err); }
+    });
+  }
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href^="mailto:"]');
+    if (!a) return;
+    var email = a.getAttribute('href').replace(/^mailto:/, '').split('?')[0];
+    copyText(email).then(function () {
+      showToast('이메일 주소를 복사했어요 — ' + email);
+    }).catch(function () {
+      showToast(email);
+    });
+  });
+})();

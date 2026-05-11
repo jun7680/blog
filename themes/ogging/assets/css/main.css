@@ -731,3 +731,32 @@ button { font-family: inherit; cursor: pointer; }
 .lightbox__close:hover { opacity: 0.7; }
 .mermaid { cursor: zoom-in; }
 article img { cursor: zoom-in; }
+
+/* Toast */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 36px;
+  transform: translateX(-50%) translateY(20px);
+  background: #1a1a20;
+  color: #e6e6ea;
+  border: 1px solid rgba(255,255,255,0.12);
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Pretendard', sans-serif;
+  font-weight: 500;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .2s ease, transform .2s ease;
+  z-index: 10000;
+  max-width: calc(100vw - 40px);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.toast--visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
