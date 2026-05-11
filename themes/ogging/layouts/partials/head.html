@@ -1,12 +1,48 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }} — {{ site.Title }}{{ end }}</title>
-{{ with .Description | default site.Params.description }}<meta name="description" content="{{ . }}">{{ end }}
-{{ with .Params.author | default site.Params.author.name }}<meta name="author" content="{{ . }}">{{ end }}
+{{ $desc := .Description | default site.Params.description }}
+{{ $authorName := .Params.author | default site.Params.author.name }}
+{{ $pageURL := .Permalink }}
+
+{{/* OG 이미지 결정: page bundle의 image > site 기본 og-default.png */}}
+{{ $ogImage := "og-default.png" | absURL }}
+{{ $ogW := 1200 }}
+{{ $ogH := 630 }}
+{{ with .Params.image }}
+  {{ $match := $.Resources.GetMatch . }}
+  {{ if $match }}
+    {{ $ogImage = $match.Permalink }}
+    {{ with $match.Width }}{{ $ogW = . }}{{ end }}
+    {{ with $match.Height }}{{ $ogH = . }}{{ end }}
+  {{ end }}
+{{ end }}
+
+{{ with $desc }}<meta name="description" content="{{ . }}">{{ end }}
+{{ with $authorName }}<meta name="author" content="{{ . }}">{{ end }}
+<link rel="canonical" href="{{ $pageURL }}">
+
 <meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}">
 <meta property="og:title" content="{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }}{{ end }}">
 <meta property="og:site_name" content="{{ site.Title }}">
-{{ with .Description | default site.Params.description }}<meta property="og:description" content="{{ . }}">{{ end }}
+<meta property="og:url" content="{{ $pageURL }}">
+<meta property="og:locale" content="ko_KR">
+{{ with $desc }}<meta property="og:description" content="{{ . }}">{{ end }}
+<meta property="og:image" content="{{ $ogImage }}">
+<meta property="og:image:width" content="{{ $ogW }}">
+<meta property="og:image:height" content="{{ $ogH }}">
+<meta property="og:image:alt" content="{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }}{{ end }}">
+{{ if .IsPage }}
+<meta property="article:published_time" content="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}">
+{{ with .Lastmod }}<meta property="article:modified_time" content="{{ .Format "2006-01-02T15:04:05Z07:00" }}">{{ end }}
+{{ with $authorName }}<meta property="article:author" content="{{ . }}">{{ end }}
+{{ range .Params.tags }}<meta property="article:tag" content="{{ . }}">{{ end }}
+{{ end }}
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }}{{ end }}">
+{{ with $desc }}<meta name="twitter:description" content="{{ . }}">{{ end }}
+<meta name="twitter:image" content="{{ $ogImage }}">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,4 +56,3 @@
 {{ with site.Params.adsense }}{{ if and .enabled .client }}
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ .client }}" crossorigin="anonymous"></script>
 {{ end }}{{ end }}
-
