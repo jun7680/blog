@@ -162,8 +162,22 @@ button { font-family: inherit; cursor: pointer; }
   overflow: hidden;
   margin-bottom: 72px;
   transition: border-color 0.3s;
+  cursor: pointer;
 }
 .hero:hover { border-color: color-mix(in srgb, var(--accent) 50%, var(--rule)); }
+.hero__link {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  text-indent: -9999px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.hero__link:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -4px;
+  border-radius: var(--radius);
+}
 .hero::before {
   content: "OG_"; position: absolute;
   right: -16px; bottom: -56px;
@@ -210,6 +224,7 @@ button { font-family: inherit; cursor: pointer; }
 }
 .hero__cta {
   position: relative;
+  z-index: 2;
   display: inline-flex; align-items: center; gap: 10px;
   font-family: var(--font-mono); font-size: 13px;
   font-weight: 600;
@@ -219,12 +234,13 @@ button { font-family: inherit; cursor: pointer; }
   border-radius: var(--radius);
   background: var(--bg);
   transition: all 0.2s;
+  pointer-events: none;
 }
-.hero__cta:hover {
+.hero:hover .hero__cta {
   background: var(--accent); color: var(--accent-ink);
   border-color: var(--accent);
 }
-.hero__cta:hover .arrow { transform: translateX(4px); }
+.hero:hover .hero__cta .arrow { transform: translateX(4px); }
 .arrow { transition: transform 0.2s; }
 
 .posts {

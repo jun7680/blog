@@ -2,6 +2,7 @@
 {{ $cat := index .Params.categories 0 | default "POST" }}
 {{ $read := math.Max 1 (math.Ceil (div (countwords .Plain | int) 350)) | int }}
 <section class="hero">
+  <a class="hero__link" href="{{ .RelPermalink }}" aria-label="{{ .Title }} — 글 읽기"></a>
   <div class="hero__meta">
     <span class="hero__badge">LATEST</span>
     <span>{{ upper $cat }}</span>
@@ -12,9 +13,9 @@
   </div>
   <h1 class="hero__title">{{ .Title }}</h1>
   {{ with .Description }}<p class="hero__desc">{{ . }}</p>{{ end }}
-  <a href="{{ .RelPermalink }}" class="hero__cta">
+  <span class="hero__cta" aria-hidden="true">
     <span>READ POST</span>
     <span class="arrow">→</span>
-  </a>
+  </span>
 </section>
 {{ end }}
