@@ -1,0 +1,19 @@
+{{ $ad := site.Params.adsense }}
+{{ if and $ad $ad.enabled $ad.client $ad.slot }}
+  <div class="ad-slot" role="complementary" aria-label="광고">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="{{ $ad.client }}"
+         data-ad-slot="{{ $ad.slot }}"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+{{ else if and $ad $ad.placeholder }}
+  <div class="ad-slot" role="complementary" aria-label="AdSense placeholder">
+    <span class="ad-slot__tag">[ AD ]</span>
+    <span class="ad-slot__title">Google AdSense 슬롯</span>
+    <span class="ad-slot__sub">300 × 250 · Sidebar Display</span>
+    <span class="ad-slot__sub" style="margin-top: 8px; opacity: 0.6;">data-ad-slot="XXXXXX"</span>
+  </div>
+{{ end }}

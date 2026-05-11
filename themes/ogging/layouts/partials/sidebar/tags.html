@@ -1,0 +1,14 @@
+{{ $tags := site.Taxonomies.tags }}
+{{ if $tags }}
+<div class="card" id="tags">
+  <div class="card__head">
+    <span class="card__title">TAGS</span>
+    <span class="card__aux">{{ len $tags }}</span>
+  </div>
+  <div class="tags">
+    {{ range $name, $value := $tags }}
+      <a class="tag" href="{{ "/tags/" | relURL }}{{ $name | urlize }}/">#{{ $name }}<span class="tag__count">{{ len $value.Pages }}</span></a>
+    {{ end }}
+  </div>
+</div>
+{{ end }}

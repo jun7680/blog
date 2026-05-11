@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="{{ site.LanguageCode | default "ko" }}" data-theme="dark">
+<head>
+{{ partial "head.html" . }}
+</head>
+<body>
+<div class="scroll-progress"><div id="progress-bar"></div></div>
+{{ partial "header.html" . }}
+<main class="page">
+  <div>
+    {{ block "main" . }}{{ end }}
+  </div>
+  {{ partial "sidebar/index.html" . }}
+</main>
+{{ partial "footer.html" . }}
+{{ partial "palette.html" . }}
+{{ $js := resources.Get "js/main.js" | minify | fingerprint }}
+<script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" defer></script>
+</body>
+</html>

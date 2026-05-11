@@ -1,0 +1,8 @@
+.DS_Store
+.hugo_build.lock
+resources/_gen/
+.omc/
+_workspace/
+config.stack.yaml.bak
+*.bak
+node_modules/

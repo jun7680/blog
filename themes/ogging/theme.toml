@@ -1,0 +1,11 @@
+name = "ogging"
+license = "MIT"
+description = "Editorial monospace dark theme for 오깅중 dev blog."
+homepage = "https://jun7680.github.io"
+tags = ["blog", "dark", "monospace", "editorial"]
+features = ["dark-mode", "command-palette", "search", "rss", "responsive"]
+min_version = "0.128.0"
+
+[author]
+name = "오깅중"
+homepage = "https://jun7680.github.io"

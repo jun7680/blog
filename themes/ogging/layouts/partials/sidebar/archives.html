@@ -1,0 +1,24 @@
+{{ $sections := site.Params.mainSections | default (slice "post") }}
+{{ $pages := where site.RegularPages "Section" "in" $sections }}
+{{ $byYear := $pages.GroupByDate "2006" }}
+{{ if $byYear }}
+  {{ $max := 1 }}
+  {{ range $byYear }}
+    {{ if gt (len .Pages) $max }}{{ $max = len .Pages }}{{ end }}
+  {{ end }}
+  {{ $total := len $pages }}
+<div class="card" id="archive">
+  <div class="card__head">
+    <span class="card__title">ARCHIVES</span>
+    <span class="card__aux">{{ $total }} posts</span>
+  </div>
+  {{ range $byYear }}
+    {{ $pct := mul (div (mul (len .Pages) 1.0) (mul $max 1.0)) 100 }}
+    <div class="archive-row">
+      <span class="archive-row__year">{{ .Key }}</span>
+      <span class="archive-row__bar"><div style="width: {{ printf "%.0f" $pct }}%"></div></span>
+      <span class="archive-row__count">{{ printf "%02d" (len .Pages) }}</span>
+    </div>
+  {{ end }}
+</div>
+{{ end }}

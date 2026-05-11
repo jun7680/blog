@@ -1,0 +1,20 @@
+{{ define "main" }}
+{{ $cat := index .Params.categories 0 | default "POST" }}
+{{ $read := math.Max 1 (math.Ceil (div (countwords .Plain | int) 350)) | int }}
+<article class="article reveal-in">
+  <header class="article__header">
+    <div class="article__meta">
+      <span>{{ upper $cat }}</span>
+      <span>·</span>
+      <span>{{ .Date.Format "JAN 02, 2006" | upper }}</span>
+      <span>·</span>
+      <span>{{ $read }}분 읽기</span>
+    </div>
+    <h1 class="article__title">{{ .Title }}</h1>
+    {{ with .Description }}<p class="article__desc">{{ . }}</p>{{ end }}
+  </header>
+  <div class="article__body">
+    {{ .Content }}
+  </div>
+</article>
+{{ end }}

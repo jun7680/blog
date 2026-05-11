@@ -1,0 +1,20 @@
+{{ with . }}
+{{ $cat := index .Params.categories 0 | default "POST" }}
+{{ $read := math.Max 1 (math.Ceil (div (countwords .Plain | int) 350)) | int }}
+<section class="hero">
+  <div class="hero__meta">
+    <span class="hero__badge">LATEST</span>
+    <span>{{ upper $cat }}</span>
+    <span>·</span>
+    <span>{{ .Date.Format "JAN 02, 2006" | upper }}</span>
+    <span>·</span>
+    <span>{{ $read }}분 읽기</span>
+  </div>
+  <h1 class="hero__title">{{ .Title }}</h1>
+  {{ with .Description }}<p class="hero__desc">{{ . }}</p>{{ end }}
+  <a href="{{ .RelPermalink }}" class="hero__cta">
+    <span>READ POST</span>
+    <span class="arrow">→</span>
+  </a>
+</section>
+{{ end }}

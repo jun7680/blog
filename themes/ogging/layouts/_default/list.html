@@ -1,0 +1,22 @@
+{{ define "main" }}
+{{ $paginator := .Paginate .Pages.ByDate.Reverse }}
+<section>
+  <div class="section-label">
+    <span>{{ .Title | upper }}</span>
+    <span class="section-label__rule"></span>
+    <span class="section-label__count">{{ printf "%02d" (len .Pages) }}</span>
+  </div>
+  <div class="posts">
+    {{ range $i, $p := $paginator.Pages }}
+      {{ partial "post-row.html" (dict "post" $p "idx" (add $i 1)) }}
+    {{ end }}
+  </div>
+  {{ if gt $paginator.TotalPages 1 }}
+  <nav class="pagination" aria-label="페이지네이션">
+    {{ if $paginator.HasPrev }}<a href="{{ $paginator.Prev.URL }}">← PREV</a>{{ else }}<span class="pagination__btn is-disabled">← PREV</span>{{ end }}
+    <span>PAGE {{ printf "%02d" $paginator.PageNumber }} / {{ printf "%02d" $paginator.TotalPages }}</span>
+    {{ if $paginator.HasNext }}<a href="{{ $paginator.Next.URL }}">NEXT →</a>{{ else }}<span class="pagination__btn is-disabled">NEXT →</span>{{ end }}
+  </nav>
+  {{ end }}
+</section>
+{{ end }}
