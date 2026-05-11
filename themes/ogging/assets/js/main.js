@@ -76,3 +76,50 @@
     .then(function (json) { index = Array.isArray(json) ? json : []; render(''); })
     .catch(function () {});
 })();
+
+(function lightbox() {
+  var modal = document.createElement('div');
+  modal.className = 'lightbox';
+  modal.hidden = true;
+  modal.innerHTML = '<button class="lightbox__close" type="button" aria-label="닫기">×</button><div class="lightbox__content"></div>';
+  document.body.appendChild(modal);
+  var content = modal.querySelector('.lightbox__content');
+  var closeBtn = modal.querySelector('.lightbox__close');
+
+  function open(node) {
+    var clone = node.cloneNode(true);
+    if (clone.tagName && clone.tagName.toLowerCase() === 'svg') {
+      clone.removeAttribute('style');
+      clone.setAttribute('width', '100%');
+      clone.setAttribute('height', '100%');
+    }
+    content.innerHTML = '';
+    content.appendChild(clone);
+    modal.hidden = false;
+    document.body.style.overflow = 'hidden';
+  }
+  function close() {
+    modal.hidden = true;
+    content.innerHTML = '';
+    document.body.style.overflow = '';
+  }
+  modal.addEventListener('click', function (e) {
+    if (e.target === modal || e.target === closeBtn || (e.target.closest && e.target.closest('.lightbox__close'))) close();
+  });
+  document.addEventListener('keydown', function (e) {
+    if ((e.key || '').toLowerCase() === 'escape' && !modal.hidden) close();
+  });
+  document.addEventListener('click', function (e) {
+    var t = e.target;
+    var mermaidEl = t.closest && t.closest('.mermaid');
+    if (mermaidEl) {
+      var svg = mermaidEl.querySelector('svg');
+      if (svg) { e.preventDefault(); open(svg); }
+      return;
+    }
+    if (t.tagName === 'IMG' && t.closest('article')) {
+      e.preventDefault();
+      open(t);
+    }
+  });
+})();
