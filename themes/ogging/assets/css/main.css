@@ -315,12 +315,17 @@ button { font-family: inherit; cursor: pointer; }
   overflow: hidden;
   z-index: 4;
 }
+.post-row__preview {
+  background-size: cover;
+  background-position: center;
+}
 .post-row__preview::after {
   content: ""; position: absolute; inset: 0;
   background: repeating-linear-gradient(45deg,
     transparent 0 8px,
     color-mix(in srgb, var(--accent) 8%, transparent) 8px 9px);
 }
+.post-row__preview--image::after { display: none; }
 .post-row__preview span {
   position: relative;
   font-family: var(--font-mono); font-size: 10px;

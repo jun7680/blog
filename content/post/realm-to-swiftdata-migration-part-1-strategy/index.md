@@ -266,7 +266,7 @@ try? FileManager.default.setAttributes(
 
 전략 정하고 코드 굴리기 시작하니, 거기서부터 또 다른 함정들이 줄줄이 튀어나왔다. 시리즈 다음 편들에서 한 편씩 다룰 예정.
 
-1. **Primary Key 함정** (Part 2 — 다음 편 예정)
+1. **Primary Key 함정** ([Part 2](/p/realm-to-swiftdata-migration-part-2-primary-key-traps/))
    - `.invalidInt` 스캐폴드가 기본값과 충돌해서 모든 row가 같은 PK로 만들어진다
    - `String.hashValue`는 프로세스 재시작마다 랜덤이라 PK가 불안정하다
    - `#Predicate` 안의 enum 비교가 silent fail 한다
@@ -297,14 +297,14 @@ try? FileManager.default.setAttributes(
 
 이번 마이그레이션 굴리면서 다시 확인한 게 하나 있다. 큰 마이그레이션의 가장 큰 의사결정은 **"코드를 어떻게 짤지"가 아니라 "데이터 정책과 UX를 어떻게 정할지"**다. 코드는 결정이 잡히면 따라온다. 결정이 안 잡힌 채로 코드를 쓰면, 그 코드가 결정을 대신 내려버리고 그게 가장 빠지기 어려운 종류의 부채가 된다. ~~경험담임~~
 
-다음 편(Part 2 — Primary Key 함정)에서 보자.
+다음 편 → [Part 2 — Primary Key 함정 3가지](/p/realm-to-swiftdata-migration-part-2-primary-key-traps/) 에서 보자.
 
 ---
 
 ## 시리즈 목차
 
 - Part 1 — 전략 (이 글)
-- Part 2 — Primary Key 함정 (다음 편 예정)
+- [Part 2 — Primary Key 함정](/p/realm-to-swiftdata-migration-part-2-primary-key-traps/)
 - Part 3 — DAO 패턴 (다음 편 예정)
 - Part 4 — Combine 통합 (다음 편 예정)
 - Part 5 — Async/Await 통합 (다음 편 예정)
