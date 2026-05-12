@@ -349,4 +349,4 @@ Realm은 `Results<T>`가 이벤트·snapshot·publisher를 한 묶음으로 들�
 - [Part 3 — DAO 패턴](/p/realm-to-swiftdata-migration-part-3-dao-pattern/)
 - Part 4 — Combine 통합 (이 글)
 - [Part 5 — Async/Await 통합](/p/realm-to-swiftdata-migration-part-5-async-await-integration/)
-- Part 6 — View 다중 mount 디버깅 (다음 편 예정)
+- [Part 6 — View 다중 mount 디버깅](/p/realm-to-swiftdata-migration-part-6-view-multi-mount-debugging/)

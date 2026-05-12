@@ -273,7 +273,7 @@ try? FileManager.default.setAttributes(
 2. **DAO 패턴** ([Part 3](/p/realm-to-swiftdata-migration-part-3-dao-pattern/)) — class 인스턴스 vs enum + static. SwiftData에서 어느 쪽이 안전한가
 3. **Combine 통합** ([Part 4](/p/realm-to-swiftdata-migration-part-4-combine-integration/)) — Realm `Results`의 자동 알림 패턴을 SwiftData에서 어떻게 재현했나
 4. **Async/Await race** ([Part 5](/p/realm-to-swiftdata-migration-part-5-async-await-integration/)) — sync 매니저의 fire-and-forget 함정
-5. **View 다중 mount** (Part 6 — 다음 편 예정) — 마이그레이션 후 발견한 화면 두 번 깜빡임 디버깅
+5. **View 다중 mount** ([Part 6](/p/realm-to-swiftdata-migration-part-6-view-multi-mount-debugging/)) — 마이그레이션 후 발견한 화면 두 번 깜빡임 디버깅
 
 ---
 
@@ -308,4 +308,4 @@ try? FileManager.default.setAttributes(
 - [Part 3 — DAO 패턴](/p/realm-to-swiftdata-migration-part-3-dao-pattern/)
 - [Part 4 — Combine 통합](/p/realm-to-swiftdata-migration-part-4-combine-integration/)
 - [Part 5 — Async/Await 통합](/p/realm-to-swiftdata-migration-part-5-async-await-integration/)
-- Part 6 — View 다중 mount 디버깅 (다음 편 예정)
+- [Part 6 — View 다중 mount 디버깅](/p/realm-to-swiftdata-migration-part-6-view-multi-mount-debugging/)

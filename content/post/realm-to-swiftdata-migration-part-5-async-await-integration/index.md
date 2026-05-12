@@ -369,7 +369,7 @@ Part 4가 이벤트 흐름 경계였다면 Part 5는 호출 시그니처 경계�
 
 회귀가 처음 어떻게 발견됐는지, 시그니처 전파가 정확히 어디까지 번졌는지 같은 구체 정황은 노트에 남겨두지 않아 회상으로 다 적기는 어렵다. 다만 그 과정에서 분명한 건 — 동기 시그니처로 비동기를 숨기는 자리가 보일 때마다 어디선가 race가 한 발 뒤에 따라온다는 것. Part 3 autosave 타이밍, Part 4 publisher 첫 emit, Part 5 fire-and-forget이 다 같은 거짓말의 다른 모양이었다.
 
-마이그레이션이 끝났다고 안심한 자리에서 또 다른 race가 나왔다 — View 가 두 번 mount 되는 경로. 다음 편(Part 6)에서 다룬다.
+마이그레이션이 끝났다고 안심한 자리에서 또 다른 race가 나왔다 — View 가 두 번 mount 되는 경로. 다음 편([Part 6 — View 다중 mount 디버깅](/p/realm-to-swiftdata-migration-part-6-view-multi-mount-debugging/))에서 다룬다.
 
 ---
 
@@ -380,4 +380,4 @@ Part 4가 이벤트 흐름 경계였다면 Part 5는 호출 시그니처 경계�
 - [Part 3 — DAO 패턴](/p/realm-to-swiftdata-migration-part-3-dao-pattern/)
 - [Part 4 — Combine 통합](/p/realm-to-swiftdata-migration-part-4-combine-integration/)
 - Part 5 — Async/Await 통합 (이 글)
-- Part 6 — View 다중 mount 디버깅 (다음 편 예정)
+- [Part 6 — View 다중 mount 디버깅](/p/realm-to-swiftdata-migration-part-6-view-multi-mount-debugging/)
