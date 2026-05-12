@@ -347,7 +347,7 @@ static func upsert(_ summary: BasicSummaryEntityV2) {
 
 특히 `String.hashValue` 함정은 한 번 박혀서 운영에 나가면 발견이 어렵다. lookup이 실패하는 게 "데이터가 원래 없었던 건지 PK가 안 맞는 건지" 콜드 패스에서 구별이 안 된다. 그래서 PK 만드는 함수는 **처음부터 결정적**이어야 한다. ~~이걸 한 번 데이고 나서야 배움.~~
 
-다음 편(Part 3 — DAO 패턴)에서는 이렇게 만든 entity들을 어떻게 안전하게 다룰지 — class 인스턴스 DAO vs enum + static 메서드 — 를 비교한다. SwiftData에서 라이프사이클을 어떻게 단순화할 수 있는지가 주제다.
+[Part 3 — DAO 패턴](/p/realm-to-swiftdata-migration-part-3-dao-pattern/)에서는 이렇게 만든 entity들을 어떻게 안전하게 다룰지 — class 인스턴스 DAO vs enum + static 메서드 — 를 비교한다. SwiftData에서 라이프사이클을 어떻게 단순화할 수 있는지가 주제다.
 
 ---
 
@@ -355,7 +355,7 @@ static func upsert(_ summary: BasicSummaryEntityV2) {
 
 - [Part 1 — 전략](/p/realm-to-swiftdata-migration-part-1-strategy/)
 - Part 2 — Primary Key 함정 (이 글)
-- Part 3 — DAO 패턴 (다음 편 예정)
+- [Part 3 — DAO 패턴](/p/realm-to-swiftdata-migration-part-3-dao-pattern/)
 - Part 4 — Combine 통합 (다음 편 예정)
 - Part 5 — Async/Await 통합 (다음 편 예정)
 - Part 6 — View 다중 mount 디버깅 (다음 편 예정)

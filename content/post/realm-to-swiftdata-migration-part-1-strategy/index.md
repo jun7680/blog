@@ -223,7 +223,7 @@ private var items: [Item]
 
 `@Query` 매크로 안에 `accountID == currentAccountID` 조건만 박아두면 계정 전환은 `currentAccountID` 토글 한 번으로 끝난다. row를 지우거나 다시 부르지 않는다. `FetchDescriptor`를 직접 만드는 경우에도 `#Predicate<Item>` 안에 같은 조건을 넣으면 동일.
 
-DAO 레이어에서 이 패턴을 어떻게 강제하는지(잊고 안 넣으면 사고 남)는 Part 3 DAO 패턴 편에서 따로 다룬다.
+DAO 레이어에서 이 패턴을 어떻게 강제하는지(잊고 안 넣으면 사고 남)는 [Part 3 — DAO 패턴](/p/realm-to-swiftdata-migration-part-3-dao-pattern/) 편에서 따로 다룬다.
 
 ---
 
@@ -270,7 +270,7 @@ try? FileManager.default.setAttributes(
    - `.invalidInt` 스캐폴드가 기본값과 충돌해서 모든 row가 같은 PK로 만들어진다
    - `String.hashValue`는 프로세스 재시작마다 랜덤이라 PK가 불안정하다
    - `#Predicate` 안의 enum 비교가 silent fail 한다
-2. **DAO 패턴** (Part 3 — 다음 편 예정) — class 인스턴스 vs enum + static. SwiftData에서 어느 쪽이 안전한가
+2. **DAO 패턴** ([Part 3](/p/realm-to-swiftdata-migration-part-3-dao-pattern/)) — class 인스턴스 vs enum + static. SwiftData에서 어느 쪽이 안전한가
 3. **Combine 통합** (Part 4 — 다음 편 예정) — Realm `Results`의 자동 알림 패턴을 SwiftData에서 어떻게 재현했나
 4. **Async/Await race** (Part 5 — 다음 편 예정) — sync 매니저의 fire-and-forget 함정
 5. **View 다중 mount** (Part 6 — 다음 편 예정) — 마이그레이션 후 발견한 화면 두 번 깜빡임 디버깅
@@ -305,7 +305,7 @@ try? FileManager.default.setAttributes(
 
 - Part 1 — 전략 (이 글)
 - [Part 2 — Primary Key 함정](/p/realm-to-swiftdata-migration-part-2-primary-key-traps/)
-- Part 3 — DAO 패턴 (다음 편 예정)
+- [Part 3 — DAO 패턴](/p/realm-to-swiftdata-migration-part-3-dao-pattern/)
 - Part 4 — Combine 통합 (다음 편 예정)
 - Part 5 — Async/Await 통합 (다음 편 예정)
 - Part 6 — View 다중 mount 디버깅 (다음 편 예정)
