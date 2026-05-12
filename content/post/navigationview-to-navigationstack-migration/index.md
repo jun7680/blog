@@ -3,7 +3,7 @@ author = "오깅중"
 title = "NavigationView에서 NavigationStack으로 — iOS 16 마이그레이션 정리"
 slug = "navigationview-to-navigationstack-migration"
 date = "2026-05-12T12:30:00+09:00"
-description = "NavigationView가 iOS 16에서 deprecated 됐다. NavigationStack으로 1:1 치환부터 NavigationPath로 프로그래매틱 제어, 딥링크, 자주 걸리는 자리까지 짧게 정리."
+description = "NavigationView가 iOS 16에서 deprecated 됐다. NavigationStack으로 1:1 치환부터 NavigationPath로 프로그래매틱 제어, 딥링크, 자주 걸리는 문제까지 짧게 정리."
 categories = ["Swift"]
 tags = ["SwiftUI", "NavigationStack", "NavigationView", "iOS16", "Migration", "Navigation"]
 image = ""
@@ -182,9 +182,9 @@ var body: some View {
 
 ---
 
-## 자주 걸리는 자리 4가지
+## 자주 걸리는 문제 4가지
 
-### 1. `navigationDestination`을 lazy container 안에 박음
+### 문제 1 — `navigationDestination`을 lazy container 안에 박음
 
 공식 문서가 가장 강하게 경고하는 자리. `List`, `LazyVStack`, `LazyHStack` 같은 **lazy container 내부에 `navigationDestination`을 두면 안 된다.** 자식 view가 필요할 때만 생성되기 때문에, NavigationStack이 destination을 못 보는 순간이 생긴다.
 
@@ -203,7 +203,7 @@ NavigationStack {
 
 또 `navigationDestination`은 **NavigationStack 안쪽 view의 modifier 체인**에 붙여야 한다. NavigationStack 자체에 붙이면 동작하지 않는다.
 
-### 2. 같은 타입에 destination 여러 번
+### 문제 2 — 같은 타입에 destination 여러 번
 
 같은 데이터 타입에 `navigationDestination`을 두 번 이상 등록하면 어느 것이 적용될지 보장이 없다. SwiftUI 공식 문서는 "여러 타입을 다루려면 modifier를 여러 개 두라"고만 안내하지, 같은 타입 중복 시 동작은 명시하지 않는다. **타입당 한 자리**에 라우팅 로직을 모아두는 편이 안전하다.
 
@@ -213,7 +213,7 @@ NavigationStack {
 .navigationDestination(for: Item.self) { OtherView($0) }
 ```
 
-### 3. `popToRoot`은 옵션이 여러 개
+### 문제 3 — `popToRoot`은 옵션이 여러 개
 
 NavigationPath가 들고 있는 stack을 한 번에 비우는 방법이 세 가지. 다 같은 결과지만 의도에 맞는 걸 골라 쓰자.
 
@@ -230,7 +230,7 @@ path.removeAll()
 
 처음엔 `path.removeAll()`이 없는 줄 알고 `removeLast(path.count)`로 갔는데, 공식 시그니처 다시 보니 `mutating func removeAll(keepingCapacity: Bool = false)`가 있었다 ㅋㅋ 가장 짧은 게 가장 자연스럽다.
 
-### 4. `NavigationLink(destination:label:)`을 NavigationStack 안에서 그대로 씀
+### 문제 4 — `NavigationLink(destination:label:)`을 NavigationStack 안에서 그대로 씀
 
 NavigationStack의 `path` 기반 추적은 **`NavigationLink(value:)` + `navigationDestination(for:)` 짝**에서만 동작한다. 이전 형태(`NavigationLink(destination: SomeView())`)는 컴파일은 되지만 path에 안 들어간다. 즉 사용자가 탭해서 들어간 화면을 `path.removeLast()` 같은 프로그래매틱 pop으로 빼낼 수 없다.
 
