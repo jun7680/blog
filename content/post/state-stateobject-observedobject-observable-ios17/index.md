@@ -66,7 +66,7 @@ struct ChildView: View {
 }
 ```
 
-자식이 직접 만들고 자식이 들고 있어야 할 ViewModel이면 `@StateObject`. 외부에서 받아서 보기만 할 거면 `@ObservedObject`. 이게 안 맞으면 부모 리렌더할 때마다 자식 상태가 리셋되는데, 처음 보면 원인 찾기 한참 걸린다.
+자식이 직접 만들고 자식이 들고 있어야 할 ViewModel이면 `@StateObject`. 외부에서 받아서 보기만 할 거면 `@ObservedObject`. 이게 안 맞으면 부모 리렌더할 때마다 자식 상태가 리셋되는데, 처음 보면 원인 찾기 진짜 빡셈.
 
 ## @Bindable은 어디 쓰나
 
