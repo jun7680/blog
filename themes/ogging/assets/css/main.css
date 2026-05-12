@@ -604,7 +604,9 @@ button { font-family: inherit; cursor: pointer; }
   letter-spacing: -0.03em;
   margin: 0 0 16px;
   text-wrap: balance;
+  overflow-wrap: anywhere;
 }
+.article { min-width: 0; }
 .article__desc {
   font-size: 17px; line-height: 1.6;
   color: var(--ink-2);
