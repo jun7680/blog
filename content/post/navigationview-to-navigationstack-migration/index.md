@@ -2,7 +2,7 @@
 author = "오깅중"
 title = "NavigationView에서 NavigationStack으로 옮긴 메모"
 slug = "navigationview-to-navigationstack-migration"
-date = "2026-05-12T13:30:00+09:00"
+date = "2026-05-12T12:30:00+09:00"
 description = "iOS 16에서 deprecated된 NavigationView를 NavigationStack으로 옮기면서 정리한 메모. 값 기반 push, NavigationPath, 시간 잡아먹은 두 자리."
 categories = ["Swift"]
 tags = ["SwiftUI", "NavigationStack", "Migration"]
