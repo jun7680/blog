@@ -3,9 +3,7 @@ author = "Ock"
 title = "iOS에서 FCM 사용하기!"
 date = "2022-01-10"
 description = "FCM을 적용해보자!"
-categories = [    
-    "FCM"
-]
+categories = ["Swift"]
 tags = [
     "FCM"
 ]

@@ -9,8 +9,7 @@ tags:
     - jekyll
     - Notion
 categories:
-    - Notion
-    - jekyll
+    - Swift
 ---
 
 ### 글 작성
