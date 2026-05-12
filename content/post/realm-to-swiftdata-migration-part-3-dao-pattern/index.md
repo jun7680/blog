@@ -132,7 +132,7 @@ enum NoteDAO {
 
     static func readForDataSourceSnapshot(folderID: Int) -> [NoteEntity] {
         // paging 용 snapshot — 변경 알림과 분리해서 호출 의도를 분명히 한다
-        // (구독자가 받는 알림 흐름과 분리한 이유는 Part 4 Combine 통합 편에서)
+        // (구독자가 받는 알림 흐름과 분리한 이유는 [Part 4 Combine 통합 편](/p/realm-to-swiftdata-migration-part-4-combine-integration/)에서)
         return read(folderID: folderID)
     }
 
@@ -307,7 +307,7 @@ sequenceDiagram
 | `try! Realm()` 매번 호출 | `context` computed property 단일 진입점 |
 | `realm.objects(T.self).filter(...)` | `FetchDescriptor<T>(predicate: #Predicate { ... })` |
 | `realm.write { realm.add(_, update: .modified) }` | 명시적 upsert (lookup → insert/update) + `context.save()` |
-| Object 변경 → 자동 알림 | `NotificationCenter.post` 명시 발사 (Part 4 참고) |
+| Object 변경 → 자동 알림 | `NotificationCenter.post` 명시 발사 ([Part 4 참고](/p/realm-to-swiftdata-migration-part-4-combine-integration/)) |
 
 ---
 
@@ -321,9 +321,9 @@ sequenceDiagram
 | 조회 (스냅샷) | `read`, `load` | `readNote(folderID:)`, `loadNote()` |
 | 수정 | `update` | `updateNote(_:)` |
 | 삭제 | `delete` | `deleteNote(rowID:)` |
-| 변경 알림 구독 | `subscribe` | `subscribeForDataSource(folderID:)` (Part 4 참고) |
+| 변경 알림 구독 | `subscribe` | `subscribeForDataSource(folderID:)` ([Part 4 참고](/p/realm-to-swiftdata-migration-part-4-combine-integration/)) |
 
-`subscribe` prefix는 다음 편(Part 4 — Combine 통합)에서 본격적으로 다룬다. 이 표에서는 자리만 잡아둔다.
+`subscribe` prefix는 다음 편([Part 4 — Combine 통합](/p/realm-to-swiftdata-migration-part-4-combine-integration/))에서 본격적으로 다룬다. 이 표에서는 자리만 잡아둔다.
 
 ---
 
@@ -365,7 +365,7 @@ Part 2가 "SwiftData 매크로 경계에서 silent failure"를 주제로 했다�
 
 `enum` + `static` + 단일 진입점 패턴은 솔직히 화려한 게 없다. 그냥 "결정해야 하는 자리를 줄인다"가 전부다. `ModelContext`를 어디서 만들지, 누가 들고 있을지, 인스턴스 lifetime을 누가 책임질지... 이 결정들을 컴파일러가 강제로 막아주니까 호출 코드가 단순해진다. 단순해지면 사고도 단순한 자리에서 난다.
 
-다음 편(Part 4 — Combine 통합)에서는 이 enum DAO가 발사하는 `NotificationCenter` 알림을 Combine pipeline으로 어떻게 잇는지, 여러 알림 소스를 merge할 때 뭐가 깨지는지 다룬다. `subscribeForDataSource(folderID:)`가 그 자리에서 본격적으로 등장한다.
+다음 편 → [Part 4 — Combine 통합](/p/realm-to-swiftdata-migration-part-4-combine-integration/)에서는 이 enum DAO가 발사하는 `NotificationCenter` 알림을 Combine pipeline으로 어떻게 잇는지, 여러 알림 소스를 merge할 때 뭐가 깨지는지 다룬다. `subscribeForDataSource(folderID:)`가 그 자리에서 본격적으로 등장한다.
 
 ---
 
@@ -374,6 +374,6 @@ Part 2가 "SwiftData 매크로 경계에서 silent failure"를 주제로 했다�
 - [Part 1 — 전략](/p/realm-to-swiftdata-migration-part-1-strategy/)
 - [Part 2 — Primary Key 함정](/p/realm-to-swiftdata-migration-part-2-primary-key-traps/)
 - Part 3 — DAO 패턴 (이 글)
-- Part 4 — Combine 통합 (다음 편 예정)
+- [Part 4 — Combine 통합](/p/realm-to-swiftdata-migration-part-4-combine-integration/)
 - Part 5 — Async/Await 통합 (다음 편 예정)
 - Part 6 — View 다중 mount 디버깅 (다음 편 예정)
