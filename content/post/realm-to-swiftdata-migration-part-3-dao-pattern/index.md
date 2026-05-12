@@ -375,5 +375,5 @@ Part 2가 "SwiftData 매크로 경계에서 silent failure"를 주제로 했다�
 - [Part 2 — Primary Key 함정](/p/realm-to-swiftdata-migration-part-2-primary-key-traps/)
 - Part 3 — DAO 패턴 (이 글)
 - [Part 4 — Combine 통합](/p/realm-to-swiftdata-migration-part-4-combine-integration/)
-- Part 5 — Async/Await 통합 (다음 편 예정)
+- [Part 5 — Async/Await 통합](/p/realm-to-swiftdata-migration-part-5-async-await-integration/)
 - Part 6 — View 다중 mount 디버깅 (다음 편 예정)

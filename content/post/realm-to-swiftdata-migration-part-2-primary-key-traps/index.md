@@ -357,5 +357,5 @@ static func upsert(_ summary: BasicSummaryEntityV2) {
 - Part 2 — Primary Key 함정 (이 글)
 - [Part 3 — DAO 패턴](/p/realm-to-swiftdata-migration-part-3-dao-pattern/)
 - [Part 4 — Combine 통합](/p/realm-to-swiftdata-migration-part-4-combine-integration/)
-- Part 5 — Async/Await 통합 (다음 편 예정)
+- [Part 5 — Async/Await 통합](/p/realm-to-swiftdata-migration-part-5-async-await-integration/)
 - Part 6 — View 다중 mount 디버깅 (다음 편 예정)

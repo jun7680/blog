@@ -338,7 +338,7 @@ Part 3가 라이프사이클 경계였다면 Part 4는 이벤트 흐름 경계�
 
 Realm은 `Results<T>`가 이벤트·snapshot·publisher를 한 묶음으로 들고 있어서 사용자는 그냥 `.publisher`만 구독하면 됐다. SwiftData에선 그 묶음을 우리가 풀어서 — snapshot 함수 하나, 이벤트 채널 하나, 이벤트 쏘는 시점 하나, merge publisher 하나 — 따로 박아둬야 한다. 풀어놓으니까 함정이 보이는 자리도 늘어나는 건데, 거꾸로 말하면 어디서 무엇이 깨지는지 우리가 통제 가능한 자리에 다 있다는 뜻이기도 하다.
 
-다음 편(Part 5 — Async/Await 통합)에선 Combine 자리 옆에 또 하나 박혀 있는 흐름 — 백그라운드 sync에서 SwiftData를 어떻게 다루는지, 흔히 빠지는 fire-and-forget 안티패턴은 뭔지 다룬다.
+다음 편([Part 5 — Async/Await 통합](/p/realm-to-swiftdata-migration-part-5-async-await-integration/))에선 Combine 자리 옆에 또 하나 박혀 있는 흐름 — 백그라운드 sync에서 SwiftData를 어떻게 다루는지, 흔히 빠지는 fire-and-forget 안티패턴은 뭔지 다룬다.
 
 ---
 
@@ -348,5 +348,5 @@ Realm은 `Results<T>`가 이벤트·snapshot·publisher를 한 묶음으로 들�
 - [Part 2 — Primary Key 함정](/p/realm-to-swiftdata-migration-part-2-primary-key-traps/)
 - [Part 3 — DAO 패턴](/p/realm-to-swiftdata-migration-part-3-dao-pattern/)
 - Part 4 — Combine 통합 (이 글)
-- Part 5 — Async/Await 통합 (다음 편 예정)
+- [Part 5 — Async/Await 통합](/p/realm-to-swiftdata-migration-part-5-async-await-integration/)
 - Part 6 — View 다중 mount 디버깅 (다음 편 예정)
