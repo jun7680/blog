@@ -15,7 +15,7 @@
     {{ with $post.Description }}<p class="post-row__sub">{{ . }}</p>{{ end }}
   </div>
   <div class="post-row__meta">
-    <b>{{ $post.Date.Format "JAN 02, 2006" | upper }}</b>
+    <b>{{ $post.Date.Format "Jan 02, 2006" | upper }}</b>
     <span>{{ $read }} MIN</span>
   </div>
   <div class="post-row__preview{{ if $thumb }} post-row__preview--image{{ end }}" {{ with $thumb }}style="background-image:url('{{ . }}')"{{ end }} aria-hidden="true">
