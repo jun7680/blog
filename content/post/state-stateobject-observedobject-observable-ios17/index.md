@@ -83,6 +83,106 @@ struct EditView: View {
 
 자식이 외부에서 받은 객체에 binding 만들어야 할 때만 `@Bindable`. 그냥 읽기만 할 거면 일반 프로퍼티로 받아도 SwiftUI가 알아서 변경 추적함. body가 실제로 읽은 프로퍼티만 추적해서 [성능도 더 좋다고](https://developer.apple.com/documentation/swiftui/migrating-from-the-observable-object-protocol-to-the-observable-macro) 공식 문서에 적혀 있다.
 
----
+## 환경 주입도 표기가 바뀐다
 
-사실 17+ 깔리면 이 셋 다시 볼 일이 거의 없음. SwiftUI 처음 배우는 사람한테는 ObservableObject 익히기 전에 `@Observable`부터 보라고 하게 됨. 옛날 코드 만질 일 생기면 그때 표 다시 보면 되고.
+ObservableObject 시절엔 `environmentObject(_:)`로 객체를 트리에 흘려보냈다. `@Observable`은 환경 키를 따로 만들지 않고 **타입 그 자체를 키로** 사용한다.
+
+```swift
+// iOS 16
+ParentView()
+    .environmentObject(authStore)  // AuthStore: ObservableObject
+
+struct ChildView: View {
+    @EnvironmentObject var authStore: AuthStore
+    ...
+}
+
+// iOS 17+
+ParentView()
+    .environment(authStore)        // @Observable class AuthStore
+
+struct ChildView: View {
+    @Environment(AuthStore.self) var authStore
+    ...
+}
+```
+
+자식 쪽도 `@EnvironmentObject` → `@Environment(_:)`로 바뀐다. 옛 코드를 들어낼 때 한 묶음으로 같이 바꿔야 함.
+
+## 점진 마이그레이션 패턴
+
+전체를 한 번에 바꿀 수 없는 프로젝트가 더 많다. iOS 16 유지하면서 17에서만 새 매크로를 활용하려면 둘 다 채택하는 식의 패턴을 잠깐 거치게 된다.
+
+```swift
+#if canImport(Observation)
+import Observation
+#endif
+
+@available(iOS 17, *)
+@Observable
+final class CounterNew {
+    var value = 0
+}
+
+final class CounterLegacy: ObservableObject {
+    @Published var value = 0
+}
+```
+
+뷰는 분기.
+
+```swift
+struct CounterView: View {
+    var body: some View {
+        if #available(iOS 17, *) {
+            CounterViewNew()
+        } else {
+            CounterViewLegacy()
+        }
+    }
+}
+```
+
+타깃 최소 버전이 17로 올라가는 시점에 legacy 분기를 통째로 들어내면 됨. 한 곳을 통째로 다 갈아엎는 PR보다, 화면 단위로 천천히 갈아치우는 게 회귀 위험이 낮다.
+
+## 옮기면서 만난 함정 몇 가지
+
+- **클래스에 `==`/`Equatable`을 직접 구현해 두면 `@Observable`이 의존 추적을 못 하는 경우가 있다.** `@Observable`은 KeyPath 기반으로 의존성을 잡는데, 커스텀 Equatable이 인스턴스 동일성을 망가뜨리면 뷰가 갱신을 놓침. 가능하면 `Equatable` 안 붙이거나, `id` 같은 명시적 비교에만 사용.
+- **`@Published` 제거 잊기.** ObservableObject에서 옮길 때 `@Published`만 떼면 되는데, `@Observable`은 모든 stored property를 자동 추적하므로 `@Published`가 남아 있으면 컴파일 오류 또는 경고.
+- **`objectWillChange`로 수동 브로드캐스트하던 코드.** `@Observable`에는 같은 API가 없다. 대부분의 케이스에서 어차피 필요 없는데, 강제 갱신이 필요한 자리는 별도 `@State` 토글 변수로 우회.
+- **`@StateObject`로 강제로 유지하던 의존성 그래프.** `@Observable`을 `@State`로 받으면 View 생성 시점에 한 번만 만들어진다는 라이프사이클은 유지된다. 다만 init 비용이 큰 객체라면 명시적으로 `static let shared` 같은 싱글톤으로 외부에서 주입하는 방향이 안전.
+
+## SwiftData도 같은 흐름
+
+iOS 17에서 SwiftData가 나오면서 `@Model` 클래스가 자동으로 `@Observable`이 됐다. 즉 SwiftData 모델은 그냥 `@State` / `@Bindable`로 다루면 끝.
+
+```swift
+@Model
+final class Todo {
+    var title: String
+    var done: Bool
+    init(title: String, done: Bool = false) {
+        self.title = title
+        self.done = done
+    }
+}
+
+struct TodoRow: View {
+    @Bindable var todo: Todo
+    var body: some View {
+        TextField("title", text: $todo.title)
+        Toggle("done", isOn: $todo.done)
+    }
+}
+```
+
+ObservableObject + Combine + Repository 패턴으로 한참 우회하던 옛 흐름과 비교하면 분량이 절반 이하로 줄어든다.
+
+## 정리
+
+- iOS 17+ 새 코드는 `@Observable` + `@State` + 필요한 자리에 `@Bindable`. 끝.
+- 환경 주입은 `environment(_:)` + `@Environment(Type.self)`로 통일.
+- iOS 16 유지 프로젝트는 화면 단위 점진 마이그레이션이 안전.
+- SwiftData 모델은 자동 `@Observable`이라 별도 표기가 거의 필요 없음.
+
+새 코드 짤 때 `@StateObject`/`@ObservedObject` 표기를 마주치면 일단 `@Observable`로 옮길 수 있나부터 확인하는 게 출발선이 됐다.

@@ -1,101 +1,158 @@
 +++
-
 author = "오깅중"
-
-title = "Swift 5.7 개선 사항!!"
-
+title = "Swift 5.7에서 매일 쓰는 개선 7가지"
 date = "2022-06-15"
-
-description = "Swift 5.7 개선 사항"
-
-categories = [  
-
- "Swift"
-
-]
-
-tags = [
-
- "Swift, Swift 5,7"
-
-]
-
+description = "Swift 5.7에 들어온 변경 중 실무에서 매일 쓰게 되는 것들 위주 정리. if let 단축, any/some, 정규식 리터럴, distributed actor, 클로저 추론, 새 String 처리, Generics where 구문까지."
+categories = ["Swift"]
+tags = ["Swift", "Swift 5.7"]
 +++
 
-# Swift 5.7 개선 사항
+WWDC 2022에서 Swift 5.7이 같이 풀렸다. 보통은 이런 마이너 버전에 큰 변화가 없는데, 5.7은 일상 코드에 영향을 주는 변경이 꽤 많아서 한 번 정리해 둔다. 다 적으면 너무 길어지니까 매일 쓰게 되는 7가지만 추렸다.
 
-Swift 5.7이 소개되면서 개발자들에게 많은 부분에서 편의성을 제공하려는 모습이 보이는거 같다
+## 1. if let / guard let 단축 표기
 
-일단 다양한 개선 사항이 있는데, SPM성능 향상, 표준 라이브러리 향상, 빌드 속도 향상 Swift의 편의성 등등 다양한 개선사항이 소개 됐다!!
-
-그중에 개발하면서 유용하게 쓰일 Swift Language 개선 사항을 중점으로 소개해 보려고 한다.
-
-### if let shorthand for unwrapping optionals
-
-많은 개발자들이 옵셔설 언래핑을 진행할때 `if let`, `guard let` 등을 통해 진행 하고 계실건데 이전에는 아래와 같은 쉐도잉 작업이 필요했더랬죠?
+가장 환영받는 변경. 옵셔널 언래핑할 때 같은 이름을 두 번 쓰던 패턴이 사라졌다.
 
 ```swift
-var test: Int? = 0
+// 이전
+if let user = user {
+    show(user)
+}
 
-if let test = test { 
-  print(test)
+// 5.7
+if let user {
+    show(user)
 }
 ```
 
-쉐도잉이라 함은 if, guard 문에서 사용될 프로퍼티레 옵셔널 값을 추출한 겁니다!!
-
-다시 말해 위에 있는 if 블록을 말하는거죠
-
-지금은 너무나 익숙해져서 큰 불편함이 없지만 어쩔수 없이 변수명을 길게 사용할때가 되면 길어지는 코드에 어지럼을 느끼고 애매한 줄바꿈을 진행해야 할때가 분명 있으셨을거에요ㅎㅎ.. ~~전 그랬거든요~~
+`guard let`, `while let`도 동일하게 적용. 변수 이름이 길어질수록 효과가 크다.
 
 ```swift
-var wwdcPresentationContentFromOptional: String? = "GOOD"
+var wwdcPresentationContent: String?
 
-if let content = wwdcPresentationContentFromOptional { 
-  print(content)
+// 이전
+if let content = wwdcPresentationContent {
+    print(content)
+}
+
+// 5.7
+if let wwdcPresentationContent {
+    print(wwdcPresentationContent)
 }
 ```
 
-이런식으로 좀 애매하게 줄이게 되더라고요.. 좀 더 정확한 변수명을 원해서 변수이름을 길게 써줬는데? 언래핑을 해줄때 다시 애매해지는 경향이 있더라고요???
+이름을 그대로 살리고 싶을 때 가장 깔끔.
 
-그런데 이제 Swift 5.7에서는 이런 부분을 줄일수 있게 해줬더라고요
+## 2. any와 some — Existential vs Opaque의 명시화
+
+5.7부터 프로토콜을 타입처럼 쓸 때 `any` 키워드 명시가 권장된다.
 
 ```swift
-var content: String? = "GOOD"
+// 이전
+var transport: Transport
 
-if let content { 
-  print(content)
+// 5.7
+var transport: any Transport
+```
+
+`any Transport`는 **existential**(어떤 타입이든 들어갈 수 있는 박스). 반면 `some Transport`는 **opaque**(컴파일 타임에 단일 타입으로 확정되지만 호출자에겐 감춤).
+
+```swift
+func makeRoute() -> some Route { CarRoute() }   // 호출자엔 some Route, 실제는 CarRoute
+func anyRoute() -> any Route { CarRoute() }     // 어떤 Route든 들어가는 박스
+```
+
+성능 측면에서 `some`이 보통 더 효율적이다. existential은 dynamic dispatch + boxing 오버헤드가 있음. 5.7 이후로는 둘을 의도적으로 구분해서 쓰는 게 표준이 됐다.
+
+## 3. Regex Literal — 정규식이 1급 시민
+
+기존엔 `NSRegularExpression`으로 문자열에서 패턴 매칭을 했는데, 5.7부터 정규식 리터럴과 빌더 DSL이 들어왔다.
+
+```swift
+let log = "2026-05-13 10:30:00 ERROR Something failed"
+
+if let match = log.firstMatch(of: /(\d{4})-(\d{2})-(\d{2})/) {
+    print("year:", match.1)
+    print("month:", match.2)
+    print("day:", match.3)
 }
 ```
 
-어때요 굉장히 맘에 들지 않나요???? 전 무척 맘에 들더라고요
-
-> 아주 간단하게 사용할수 있어서 굉장히 좋아 보이더라고요👏🏻
-
-### Multi-statement closure type inference
-
-이제 클로져에서 반환타입을 가질때 자동 타입추론을 해줘서 명시적으로 반환 타입을 적어줄 필요가 없어지게 됐답니다!!
-
-이전에는 반드시 반환타입을 작성해 줬더라면 이제는
+캡처 그룹이 `match.1`, `match.2`처럼 **타입 안전한 튜플 인덱스**로 노출된다. 빌더 DSL을 쓰면 정규식 패턴 자체도 Swift 코드로 표현 가능.
 
 ```swift
-let test = [0, 20, 30, 50]
+import RegexBuilder
 
-let test2 = test.map { number in 
- 	return "Test number is \(number)"                      
+let datePattern = Regex {
+    Capture { Repeat(.digit, count: 4) }
+    "-"
+    Capture { Repeat(.digit, count: 2) }
+    "-"
+    Capture { Repeat(.digit, count: 2) }
 }
 ```
 
-> 안드의 타입추론을 이제 부러워 하지 않아도 되겠네요 ㅎㅎ..
+문법이 어렵지 않은 정규식이라면 리터럴, 복잡한 패턴이면 빌더 — 라는 식으로 갈리는 듯하다.
 
-### 결론
+## 4. Generics의 some / any가 파라미터에서도 자연스러워짐
 
-개발하기 편한 환경을 만들어 주기 위해 많은 노력을 해주는걸로 보이네요😁
+이전엔 함수 시그니처에 제네릭을 쓸 때 `<T: Animal>` 식의 거추장스러운 표기였는데, 5.7은 `some`을 파라미터 위치에서도 그대로 쓸 수 있다.
 
-좀 더 많은 개선 사항이 있으니까 천천히 다시 읽어봐야겠어요✍️
+```swift
+// 이전
+func feed<A: Animal>(_ animal: A) { ... }
 
+// 5.7
+func feed(_ animal: some Animal) { ... }
+```
 
+표기가 짧아지고 의도가 분명해진다. 단순 파라미터 한 개짜리 제네릭은 거의 다 `some`으로 바꿀 수 있다.
 
-### 참고자료
+## 5. Distributed Actor
 
-https://www.hackingwithswift.com/articles/249/whats-new-in-swift-5-7
+`actor`를 분산 시스템 경계 너머로 확장한 개념. 다른 프로세스/머신에 있는 actor에도 같은 호출 문법으로 메시지를 보낼 수 있다.
+
+```swift
+import Distributed
+
+distributed actor ChatRoom {
+    distributed func send(_ message: String) async throws { ... }
+}
+```
+
+서버사이드 Swift나 Apple Watch ↔ iPhone 같은 멀티 디바이스 시나리오에서 의미가 크다. iOS 일반 앱에서 당장 쓸 일은 많지 않지만, "있다"는 것 정도는 알아두면 좋음.
+
+## 6. Multi-statement closure 타입 추론 강화
+
+이전엔 클로저 본문이 두 줄 이상이면 반환 타입을 명시해야 하는 경우가 잦았다. 5.7은 본문이 복잡해도 추론이 잘 되도록 컴파일러가 개선됐다.
+
+```swift
+let labels = numbers.map { number in
+    let formatted = String(format: "%03d", number)
+    return "Number is \(formatted)"
+}
+```
+
+옛 컴파일러는 위 코드에서 `-> String`을 명시해야 추론이 됐는데, 5.7은 알아서 잡는다. Combine 체이닝처럼 클로저가 깊게 들어가는 코드에서 체감이 큼.
+
+## 7. Generics where 구문 — 어디서나 사용 가능
+
+`where`로 제약을 거는 위치 제한이 풀렸다.
+
+```swift
+extension Array {
+    func averageDistance() -> Double where Element == Double { ... }
+}
+```
+
+이전엔 protocol·extension 선언부에서만 가능했던 `where`가 메서드/프로퍼티 레벨에서도 자유롭게. 라이브러리 만들 때 활용도가 높다.
+
+## 정리
+
+- `if let`/`guard let` 단축, `some` 파라미터, 클로저 추론은 **일상 코드 줄 수 자체를 줄여줌**.
+- `any`/`some` 명시는 **성능 의도를 코드에 박는 효과** — 한 번 익혀두면 옛 코드에서 거슬리는 게 보이기 시작.
+- Regex 리터럴은 **NSRegularExpression 제거의 시작**. 새 코드는 다 새 API로 가도 무방.
+
+세부 변경 전체 목록은 [What's new in Swift 5.7 (Hacking with Swift)](https://www.hackingwithswift.com/articles/249/whats-new-in-swift-5-7)에 잘 정리돼 있다.
+
+5.7 이후로도 5.9의 매크로, 6.0의 strict concurrency 같은 굵직한 변경이 이어졌지만, 5.7에서 잡힌 표기·추론 개선이 그 이후의 변경을 자연스럽게 받아들이게 만든다는 점에서 중요한 마디 같음.
