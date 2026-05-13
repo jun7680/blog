@@ -1,19 +1,27 @@
+{{ with site.Params.goatcounter }}{{ with .code }}
 <div class="card">
   <div class="card__head">
     <span class="card__title">VISITORS</span>
   </div>
-  <div class="hits-badges">
-    <img
-      class="hits-badges__today"
-      src="https://hits.sh/jun7680.github.io.svg?style=for-the-badge&label=%EC%98%A4%EB%8A%98&color=ff9100&labelColor=2a2a2e&view=today"
-      alt="오늘 방문"
-      loading="lazy"
-    >
-    <img
-      class="hits-badges__total"
-      src="https://hits.sh/jun7680.github.io.svg?style=for-the-badge&label=%EB%88%84%EC%A0%81&color=4ec5e0&labelColor=2a2a2e"
-      alt="누적 방문"
-      loading="lazy"
-    >
+  <div class="gc-total">
+    <span class="gc-total__label">누적 방문자</span>
+    <span class="gc-total__value" id="gc-total">—</span>
   </div>
+  <script>
+    (function () {
+      var base = 'https://{{ . | safeJS }}.goatcounter.com/counter/TOTAL.json';
+      fetch(base, { credentials: 'omit' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (d) {
+          var el = document.getElementById('gc-total');
+          if (!el) return;
+          el.textContent = (d && d.count) ? d.count : '0';
+        })
+        .catch(function () {
+          var el = document.getElementById('gc-total');
+          if (el) el.textContent = '—';
+        });
+    })();
+  </script>
 </div>
+{{ end }}{{ end }}
