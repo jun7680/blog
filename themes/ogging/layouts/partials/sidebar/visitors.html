@@ -15,8 +15,7 @@
   </div>
   <script>
     (function () {
-      var site = {{ . | jsonify }};
-      var base = 'https://' + site + '.goatcounter.com/counter/TOTAL.json';
+      var base = 'https://{{ . | safeJS }}.goatcounter.com/counter/TOTAL.json';
       var today = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Seoul' }).format(new Date());
 
       function load(url, id) {
