@@ -1,0 +1,29 @@
+{{ with site.Params.goatcounter }}{{ with .code }}
+<div class="card">
+  <div class="card__head">
+    <span class="card__title">VISITORS</span>
+  </div>
+  <div id="gc-visitors" class="gc-visitors">
+    <span class="gc-visitors__placeholder">measuring…</span>
+  </div>
+  <script>
+    (function () {
+      function render() {
+        if (!window.goatcounter || !window.goatcounter.visit_count) {
+          setTimeout(render, 300);
+          return;
+        }
+        var slot = document.getElementById('gc-visitors');
+        if (slot) { slot.innerHTML = ''; }
+        window.goatcounter.visit_count({
+          append: '#gc-visitors',
+          path: 'TOTAL',
+          type: 'html',
+          no_branding: true
+        });
+      }
+      render();
+    })();
+  </script>
+</div>
+{{ end }}{{ end }}

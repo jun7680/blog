@@ -100,6 +100,13 @@ params:
   # 비워두면 메타 미출력.
   siteVerification: ""
 
+  # GoatCounter 방문자 카운터
+  # https://www.goatcounter.com/signup → site code 받음(예: ogging → "ogging.goatcounter.com")
+  # 가입 후 Settings → "Allow adding visitor counts on your website" 체크해야 위젯 동작.
+  # 비워두면 비콘·사이드바 카운터 모두 비활성. hugo server 로컬 개발 시에도 자동 비활성.
+  goatcounter:
+    code: "ogging"
+
   adsense:
     # AdSense 활성화 절차:
     # 1) https://adsense.google.com → 신청 → 사이트에 https://jun7680.github.io 등록

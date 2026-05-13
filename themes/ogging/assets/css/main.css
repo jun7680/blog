@@ -48,8 +48,8 @@ button { font-family: inherit; cursor: pointer; }
   border-bottom: 1px solid var(--rule);
 }
 .site-header__inner {
-  max-width: 1440px; margin: 0 auto;
-  padding: 18px 40px;
+  max-width: 1720px; margin: 0 auto;
+  padding: 18px 24px 18px 48px;
   display: grid;
   grid-template-columns: auto 1fr auto;
   align-items: center;
@@ -121,8 +121,8 @@ button { font-family: inherit; cursor: pointer; }
 }
 
 .page {
-  max-width: 1440px; margin: 0 auto;
-  padding: 56px 40px 80px;
+  max-width: 1720px; margin: 0 auto;
+  padding: 56px 24px 80px 48px;
   display: grid;
   grid-template-columns: minmax(0, 1fr) 320px;
   gap: 64px;
@@ -365,13 +365,9 @@ button { font-family: inherit; cursor: pointer; }
   display: flex; flex-direction: column; gap: 32px;
   position: sticky; top: 96px;
   align-self: start;
-  max-height: calc(100vh - 120px);
-  overflow-y: auto;
-  padding-right: 4px;
-  scrollbar-width: thin;
 }
 @media (max-width: 1024px) {
-  .sidebar { position: static; max-height: none; }
+  .sidebar { position: static; }
 }
 .card {
   border: 1px solid var(--rule);
@@ -505,8 +501,8 @@ button { font-family: inherit; cursor: pointer; }
 .site-footer {
   border-top: 1px solid var(--rule);
   margin-top: 80px;
-  padding: 56px 40px 40px;
-  max-width: 1440px; margin-left: auto; margin-right: auto;
+  padding: 56px 24px 40px 48px;
+  max-width: 1720px; margin-left: auto; margin-right: auto;
 }
 .site-footer__inner {
   display: grid;
@@ -766,4 +762,42 @@ article img { cursor: zoom-in; }
 .toast--visible {
   opacity: 1;
   transform: translateX(-50%) translateY(0);
+}
+
+/* GoatCounter visitor counter */
+.gc-visitors {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--ink-2);
+  line-height: 1.6;
+}
+.gc-visitors__placeholder {
+  color: var(--ink-3);
+  font-size: 11px;
+  opacity: 0.6;
+}
+.gc-visitors div {
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  font-family: var(--font-mono) !important;
+  color: var(--ink-2) !important;
+}
+.gc-visitors #gcvc-border {
+  display: none !important;
+}
+.gc-visitors #gcvc-views {
+  font-size: 20px !important;
+  font-weight: 700 !important;
+  color: var(--accent) !important;
+  letter-spacing: -0.01em !important;
+}
+.gc-visitors #gcvc-for {
+  font-size: 10px !important;
+  color: var(--ink-3) !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+  margin-top: 4px !important;
+  display: block !important;
 }
