@@ -55,7 +55,7 @@ try? context.save()
 - ...
 - 100번째까지 동일 → 결국 마지막 1건만 살아남음
 
-`try? context.save()`가 throw를 삼키니 로그도 안 남음. 1건만 보일 뿐 화면은 "정상 동작"으로 보임.
+`try? context.save()`가 throw를 삼키니 로그도 안 남는다. 1건만 보일 뿐 화면은 "정상 동작"으로 보인다.
 
 조회 단계에서 비로소 증상이 드러난다.
 
@@ -75,11 +75,11 @@ func read(remoteItemID: Int) -> ContentBodyEntity2? {
 
 **1. sentinel default value (`.invalidInt`)**: 코드 가독성 위해 도입했지만, "아직 결정 안 됨"을 표현하려는 의도가 unique 제약이랑 만나면 "모두 같은 값"이 되어버림.
 
-**2. unique 제약의 silent upsert 동작**: SwiftData는 unique 충돌 시 throw 안 하고 silently update로 변환함. 의도된 동작이지만, 그 의도가 "유효한 id가 들어왔다는 전제"에 기댐. sentinel이랑은 호환 안 됨.
+**2. unique 제약의 silent upsert 동작**: SwiftData는 unique 충돌 시 throw 안 하고 silently update로 변환한다. 의도된 동작이지만, 그 의도가 "유효한 id가 들어왔다는 전제"에 기댄다. sentinel이랑은 호환 안 된다.
 
-**3. try?의 에러 삼킴**: 마지막 안전망인 throw도 `try?` 한 줄에 막힘.
+**3. try?의 에러 삼킴**: 마지막 안전망인 throw도 `try?` 한 줄에 막힌다.
 
-각각 따로 보면 다 합리적인 선택. 합쳐지면 함정 됨.
+각각 따로 보면 다 합리적인 선택이다. 합쳐지면 함정이 된다.
 
 ## 해결
 

@@ -52,7 +52,7 @@ actor LogDBWriter {
 ```
 
 **① 매 호출마다 Task 스폰 (306곳에서)**
-디버깅 코드 한 줄에 Task가 하나씩. 트래픽 피크 구간에서 cooperative thread pool에 부하가 누적됨.
+디버깅 코드 한 줄에 Task가 하나씩. 트래픽 피크 구간에서 cooperative thread pool에 부하가 누적된다.
 
 **② isWriting 플래그로 동시 도착 로그 드롭**
 정작 진단 필요한 burst 구간에서 로그 대부분이 사라짐. 진단 도구가 진단 가능 구간에서 침묵하는 모순.
@@ -60,7 +60,7 @@ actor LogDBWriter {
 **③ actor 내부 이중 Task 스폰**
 `save()`가 이미 actor 메서드인데 안에서 또 Task. 호출 1번에 Task 2개. 거기에 Realm `write` 클로저가 또 thread 점유. 메모리 / lifecycle이 꼬일 환경 다 갖춰진 셈.
 
-세 개 합쳐져서 cooperative pool 위에서 thread-confined한 Realm engine을 두드리는 구조가 됐다. Realm C++ 엔진은 thread confinement가 빡빡해서 wrong thread access는 즉시 crash. cooperative pool은 hop이 자주 일어나니 충돌 확률이 시간 흐를수록 누적됨.
+세 개 합쳐져서 cooperative pool 위에서 thread-confined한 Realm engine을 두드리는 구조가 됐다. Realm C++ 엔진은 thread confinement가 빡빡해서 wrong thread access는 즉시 crash. cooperative pool은 hop이 자주 일어나니 충돌 확률이 시간 흐를수록 누적된다.
 
 ## 후보 1: actor + AsyncStream
 
@@ -168,7 +168,7 @@ Swift Concurrency는 강력하지만 만능 아님. 다음 조건이 겹치면 G
 - **단일 OS 스레드 보장이 필요**한 경우
 - **호출처가 async context가 아닌** 동기 영역에서 fire-and-forget로 떨어지는 케이스
 
-이 조건들에서 actor + AsyncStream 쓰면 cooperative pool 위에서 hop 일어나고, hop이 thread-confined 자원이랑 충돌함. crash signature 누적됨.
+이 조건들에서 actor + AsyncStream 쓰면 cooperative pool 위에서 hop 일어나고, hop이 thread-confined 자원이랑 충돌한다. crash signature가 누적된다.
 
 ## 교훈
 

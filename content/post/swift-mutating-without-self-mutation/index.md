@@ -45,9 +45,9 @@ useCases.update(
 
 ## 세 가지 모순
 
-**1. self를 mutate 안 함.** 함수 본문은 새 `Self` 인스턴스 만들어서 return할 뿐. self 상태는 손도 안 댐.
+**1. self를 mutate 안 한다.** 함수 본문은 새 `Self` 인스턴스 만들어서 return할 뿐. self 상태는 손도 안 댄다.
 
-**2. 모든 프로퍼티가 let.** `self.isEnabledAll = ...` 같은 in-place 변경이 애초에 불가능. mutating으로 self 변경하려면 `self = .init(...)` 패턴밖에 안 되는데, 이 함수는 그것도 안 함.
+**2. 모든 프로퍼티가 let.** `self.isEnabledAll = ...` 같은 in-place 변경이 애초에 불가능하다. mutating으로 self 변경하려면 `self = .init(...)` 패턴밖에 안 되는데, 이 함수는 그것도 안 한다.
 
 **3. 시그니처 자체가 모순.** `mutating`은 "self를 변경한다"는 계약이고 `-> Self`는 "새 값을 반환한다"는 계약임. 호출자가 두 의도를 동시에 받음.
 
@@ -58,7 +58,7 @@ let new = options.updated(isEnabledFeatureA: true)    // ② 반환값만 사용
 options = options.updated(isEnabledFeatureA: true)    // ③ 재할당
 ```
 
-세 가지 호출 패턴 중 어느 게 의도된 사용이냐? 시그니처만으론 모름. 실제 동작은 self를 안 바꾸니까 ①은 무용지물이고. 근데 mutating이 붙어 있어서 호출부는 `var` 강제받음. **의미는 ②인데 시그니처는 ①인 척하는 셈**.
+세 가지 호출 패턴 중 어느 게 의도된 사용이냐? 시그니처만으론 모른다. 실제 동작은 self를 안 바꾸니까 ①은 무용지물이고. 근데 mutating이 붙어 있어서 호출부는 `var`를 강제받는다. **의미는 ②인데 시그니처는 ①인 척하는 셈**이다.
 
 ## 컴파일러는 뭘 검증 안 하나
 
@@ -74,7 +74,7 @@ mutating func builder() -> Self {
 }
 ```
 
-둘 다 `mutating`이지만 self 상태가 변하지 않음. 컴파일러는 "변경할 수 있다"는 권한만 보지 "변경했다"는 사실은 확인 안 함. 그래서 의도랑 시그니처가 어긋난 코드가 그대로 빌드됨.
+둘 다 `mutating`이지만 self 상태가 변하지 않는다. 컴파일러는 "변경할 수 있다"는 권한만 보지 "변경했다"는 사실은 확인하지 않는다. 그래서 의도랑 시그니처가 어긋난 코드가 그대로 빌드된다.
 
 ## 성능 측면
 
@@ -119,7 +119,7 @@ Swift 표준 라이브러리도 같은 구분을 일관되게 한다.
 
 ## 교훈
 
-컴파일러는 "self를 변경한다"는 의미를 검증 안 함. mutating 붙여도 본문에서 안 바꾸면 통과됨. 그래서 **mutating은 함수가 self를 진짜 in-place 변경할 때만 붙여야 의미가 산다**.
+컴파일러는 "self를 변경한다"는 의미를 검증하지 않는다. mutating 붙여도 본문에서 안 바꾸면 통과한다. 그래서 **mutating은 함수가 self를 진짜 in-place 변경할 때만 붙여야 의미가 산다**.
 
 builder 패턴 필요할 땐 mutating 쓰지 말자. 함수명을 `-ing`(`updating(_:)`)이나 `with(...)` 같은 형용사 위치 단어로 두면 호출부가 자연스럽고 의도도 안 헷갈림.
 
