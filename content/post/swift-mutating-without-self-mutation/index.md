@@ -12,12 +12,12 @@ image = "thumbnail.png"
 PR 리뷰에서 이런 코드를 봤다.
 
 ```swift
-public struct NotificationSettingSnippet {
+public struct NotificationOptions {
     public let isEnabledAll: Bool
     public let isEnabledFeatureA: Bool
     // ... 20개 더 ...
 
-    public mutating func updateValue(
+    public mutating func updated(
         isEnabledAll: Bool? = nil,
         isEnabledFeatureA: Bool? = nil,
         // ... 동일하게 22개 ...
@@ -34,14 +34,14 @@ public struct NotificationSettingSnippet {
 호출부.
 
 ```swift
-guard var settingSnippet = subject.value else { return }
-useCases.updateSettings(
-    snippet: settingSnippet.updateValue(isEnabledFeatureA: true),
+guard var options = subject.value else { return }
+useCases.update(
+    options: options.updated(isEnabledFeatureA: true),
     ...
 )
 ```
 
-`settingSnippet`이 재할당되지도 않는데 `var`다. `let`으로 바꾸자고 제안하니 "`mutating func`라 `var`가 필요합니다. let으로 변경 시 컴파일 에러 발생합니다"라는 답이 왔다. 컴파일러는 정말 그렇게 시킨다. 그런데 **mutating일 이유가 있는가?**
+`options`가 재할당되지도 않는데 `var`다. `let`으로 바꾸자고 제안하니 "해당 메서드가 `mutating`이라 `var`가 필요합니다. `let`으로 바꾸면 빌드가 실패합니다"라는 답이 왔다. 컴파일러는 정말 그렇게 시킨다. 그런데 **`mutating`일 이유가 있는가?**
 
 ## 세 가지 모순
 
@@ -52,10 +52,10 @@ useCases.updateSettings(
 **3. 시그니처 자체가 모순.** `mutating`은 "self를 변경한다"는 계약이고 `-> Self`는 "새 값을 반환한다"는 계약이다. 호출자가 두 의도를 동시에 받게 된다.
 
 ```swift
-var snippet = ...
-snippet.updateValue(isEnabledFeatureA: true)              // ① 결과 무시, mutating 의존
-let new = snippet.updateValue(isEnabledFeatureA: true)    // ② 반환값만 사용
-snippet = snippet.updateValue(isEnabledFeatureA: true)    // ③ 재할당
+var options = ...
+options.updated(isEnabledFeatureA: true)              // ① 결과 무시, mutating 의존
+let new = options.updated(isEnabledFeatureA: true)    // ② 반환값만 사용
+options = options.updated(isEnabledFeatureA: true)    // ③ 재할당
 ```
 
 세 가지 호출 패턴 중 어느 것이 의도된 사용인가? 시그니처만으론 알 수 없다. 실제 동작은 self를 안 바꾸므로 ①은 무용지물이다. 그런데 mutating이 붙어 있어 호출부는 `var`를 강제받는다. **의미는 ②인데 시그니처는 ①인 척하는 셈**이다.
@@ -85,7 +85,7 @@ mutating func builder() -> Self {
 mutating 떼고 builder 스타일로.
 
 ```swift
-public func updatingValue(
+public func updating(
     isEnabledAll: Bool? = nil,
     // ...
 ) -> Self {
@@ -93,12 +93,12 @@ public func updatingValue(
 }
 ```
 
-함수명도 builder 의도가 드러나게 `updatingValue`로 바꿨다. 이제 호출부는 자연스럽게 `let`.
+함수명도 builder 의도가 드러나게 `updating(_:)`으로 바꿨다. 이제 호출부는 자연스럽게 `let`.
 
 ```swift
-guard let settingSnippet = subject.value else { return }
-useCases.updateSettings(
-    snippet: settingSnippet.updatingValue(isEnabledFeatureA: true),
+guard let options = subject.value else { return }
+useCases.update(
+    options: options.updating(isEnabledFeatureA: true),
     ...
 )
 ```
@@ -121,6 +121,6 @@ Swift 표준 라이브러리도 같은 구분을 일관되게 한다.
 
 컴파일러는 "self를 변경한다"는 의미를 검증하지 않는다. mutating을 붙여도 본문에서 안 바꾸면 통과한다. 그래서 **mutating은 함수가 self를 진짜 in-place 변경할 때만 붙여야 의미가 산다**.
 
-builder 패턴이 필요할 땐 mutating을 쓰지 않는다. 함수명을 `-ing`(`updatingValue`)이나 `with(...)` 같은 형용사 위치 단어로 두면 호출부가 자연스럽고 의도도 안 헷갈린다.
+builder 패턴이 필요할 땐 mutating을 쓰지 않는다. 함수명을 `-ing`(`updating(_:)`)이나 `with(...)` 같은 형용사 위치 단어로 두면 호출부가 자연스럽고 의도도 안 헷갈린다.
 
 리뷰에서 `var`/`let`을 묻는 이슈가 올라오면, **그 표면 밑에 시그니처와 의도의 불일치가 있지 않은지** 한 번 들여다보자. 대부분의 경우 진짜 문제는 표면이 아니라 그 아래에 있다.
