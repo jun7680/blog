@@ -1,47 +1,19 @@
-{{ with site.Params.goatcounter }}{{ with .code }}
 <div class="card">
   <div class="card__head">
     <span class="card__title">VISITORS</span>
   </div>
-  <div class="gc-stats">
-    <div class="gc-stat">
-      <span class="gc-stat__label">오늘</span>
-      <span class="gc-stat__value" id="gc-today">—</span>
-    </div>
-    <div class="gc-stat">
-      <span class="gc-stat__label">누적</span>
-      <span class="gc-stat__value" id="gc-total">—</span>
-    </div>
+  <div class="hits-badges">
+    <img
+      class="hits-badges__today"
+      src="https://hits.sh/jun7680.github.io.svg?style=for-the-badge&label=%EC%98%A4%EB%8A%98&color=ff9100&labelColor=2a2a2e&view=today"
+      alt="오늘 방문"
+      loading="lazy"
+    >
+    <img
+      class="hits-badges__total"
+      src="https://hits.sh/jun7680.github.io.svg?style=for-the-badge&label=%EB%88%84%EC%A0%81&color=4ec5e0&labelColor=2a2a2e"
+      alt="누적 방문"
+      loading="lazy"
+    >
   </div>
-  <script>
-    (function () {
-      var base = 'https://{{ . | safeJS }}.goatcounter.com/counter/TOTAL.json';
-      var today = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Seoul' }).format(new Date());
-
-      function load(url, id) {
-        fetch(url, { credentials: 'omit' })
-          .then(function (r) {
-            if (!r.ok) {
-              console.warn('[visitors] HTTP', r.status, url);
-              return null;
-            }
-            return r.json();
-          })
-          .then(function (d) {
-            var el = document.getElementById(id);
-            if (!el) return;
-            el.textContent = (d && d.count) ? d.count : '0';
-          })
-          .catch(function (err) {
-            console.warn('[visitors] fetch failed:', err && err.message, url);
-            var el = document.getElementById(id);
-            if (el) el.textContent = '—';
-          });
-      }
-
-      load(base, 'gc-total');
-      load(base + '?start=' + today + '&end=' + today, 'gc-today');
-    })();
-  </script>
 </div>
-{{ end }}{{ end }}
