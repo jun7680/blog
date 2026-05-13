@@ -55,6 +55,22 @@
     });
   }
 
+  var navToggle = document.getElementById('nav-toggle');
+  var siteNav = document.getElementById('site-nav');
+  if (navToggle && siteNav) {
+    navToggle.addEventListener('click', function () {
+      var open = siteNav.classList.toggle('is-open');
+      navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    document.addEventListener('click', function (e) {
+      if (!siteNav.classList.contains('is-open')) return;
+      if (e.target === navToggle || navToggle.contains(e.target)) return;
+      if (siteNav.contains(e.target)) return;
+      siteNav.classList.remove('is-open');
+      navToggle.setAttribute('aria-expanded', 'false');
+    });
+  }
+
   if (searchBtn) searchBtn.addEventListener('click', openPalette);
   if (backdrop) backdrop.addEventListener('click', function (e) {
     if (e.target === backdrop) closePalette();
