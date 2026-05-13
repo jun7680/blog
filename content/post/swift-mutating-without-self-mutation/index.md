@@ -12,7 +12,7 @@ image = "thumbnail.png"
 PR 리뷰에서 이런 코드를 봤다.
 
 ```swift
-public struct NotificationOptions {
+public struct UserPreferences {
     public let isEnabledAll: Bool
     public let isEnabledFeatureA: Bool
     // ... 20개 더 ...
