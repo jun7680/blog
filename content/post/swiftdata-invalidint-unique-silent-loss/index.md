@@ -79,7 +79,7 @@ func read(remoteItemID: Int) -> ContentBodyEntity2? {
 
 **3. try?의 에러 삼킴**: 마지막 안전망인 throw도 `try?` 한 줄에 막힘.
 
-각각 따로 보면 다 합리적인 선택. 합쳐지면 함정 됨.
+각각 따로 보면 다 합리적인 선택. 합쳐지면 함정이 됨.
 
 ## 해결
 

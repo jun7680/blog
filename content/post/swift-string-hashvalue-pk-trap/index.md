@@ -117,7 +117,7 @@ UserDefaults flag로 1회만 실행 보장. 다음 sync 사이클에서 서버�
 
 ## 교훈
 
-`.hashValue`는 **메모리 내 lookup 전용**. 디스크에 박는 순간 함정 됨.
+`.hashValue`는 **메모리 내 lookup 전용**. 디스크에 박는 순간 함정이 됨.
 
 DB PK 만들 때 점검 리스트:
 
