@@ -95,11 +95,19 @@ params:
   # 비워두면 비활성화. hugo server 로컬 개발 시 자동 비활성화.
   googleAnalytics: "G-7FMQW3EVSB"
 
+  # Google Search Console 사이트 소유권 메타 검증 코드(content 값만).
+  # https://search.google.com/search-console → 속성 추가 → HTML 태그.
+  # 비워두면 메타 미출력.
+  siteVerification: ""
+
   adsense:
     # AdSense 활성화 절차:
-    # 1) sidebar/index.html의 adsense partial 호출 주석 해제
-    # 2) enabled: true, client: "ca-pub-XXXX", slot: "XXXXXX" 입력
-    # 3) placeholder는 미리보기/개발용 — 평소엔 false 유지
+    # 1) https://adsense.google.com → 신청 → 사이트에 https://jun7680.github.io 등록
+    # 2) 발급된 게시자 ID(ca-pub-XXXX)를 client에 입력 → 배포
+    #    → 이때 광고는 안 켜도 됨. client만 있으면 head에 google-adsense-account 메타 + asynchronous 로더 스크립트가 자동 삽입돼서 AdSense 크롤러가 사이트 인증 가능.
+    # 3) 승인 후 광고 단위를 만들면 slot 값을 받음. enabled: true + slot 입력하면 sidebar/본문에 광고가 노출 (sidebar/index.html의 adsense partial 주석 해제 필요).
+    # 4) ads.txt는 승인 직후 AdSense 대시보드가 안내 → static/ads.txt로 추가.
+    # placeholder는 미리보기/개발용 — 평소엔 false 유지.
     enabled: false
     placeholder: false
     client: ""
