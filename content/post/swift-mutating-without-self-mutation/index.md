@@ -6,6 +6,7 @@ date = "2026-05-13T14:20:00+09:00"
 description = "mutating 키워드는 self 변경 의도를 표현하는 계약이다. 컴파일러는 그 의미를 검증하지 않아서, self를 안 바꾸는 함수에도 mutating이 붙어 통과한다. PR 리뷰에서 만난 실제 사례와 builder 패턴 대안."
 categories = ["Swift"]
 tags = ["Swift", "mutating", "Struct", "BuilderPattern", "CodeReview"]
+image = "thumbnail.png"
 +++
 
 PR 리뷰에서 이런 코드를 봤다.

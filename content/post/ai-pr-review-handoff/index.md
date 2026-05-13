@@ -6,6 +6,7 @@ date = "2026-05-13T14:25:00+09:00"
 description = "리뷰는 코드보다 코드의 의도에 대한 대화다. AI에게 회신까지 맡기면 리뷰가 사람-AI 대화가 되어 의도가 사라진다. PR 리뷰에서 AI를 어떻게 써야 할지 정리한 회고."
 categories = ["개발 회고"]
 tags = ["AI", "CodeReview", "PullRequest", "협업"]
+image = "thumbnail.png"
 +++
 
 PR에 코멘트를 달았다.

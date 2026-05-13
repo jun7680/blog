@@ -6,6 +6,7 @@ date = "2026-05-13T14:15:00+09:00"
 description = "푸시 진입과 일반 진입을 isPush 플래그로 가르는 순간, dismiss 경로가 두 갈래로 갈리고 cascade finish가 의도와 정반대로 동작한다. 분기 자체가 정책과 어긋난 사례."
 categories = ["Swift"]
 tags = ["Coordinator", "UIKit", "Navigation", "PushNotification", "Debugging"]
+image = "thumbnail.png"
 +++
 
 어느 날 푸시 알림으로 특정 화면에 들어가 작업을 완료하면 본문에 그대로 머무는 버그를 받았다. 일반 진입(리스트 → 상세 → 작업)에선 정상 동작, **푸시 진입에서만** 작업 후 리스트로 돌아오지 않음. 한참 봤더니 Coordinator 패턴에서 흔히 만들어지는 "진입 경로별 분기 트랩"이었다. 정리해 둔다.
