@@ -35,6 +35,11 @@
   </div>
   <div class="footer-baseline">
     <span>© {{ site.Params.startYear | default 2020 }}–{{ now.Year }} {{ site.Title }}</span>
+    <span class="footer-legal">
+      {{ range site.Menus.footer }}
+        <a href="{{ .URL }}">{{ .Name }}</a>
+      {{ end }}
+    </span>
     <span>BUILT WITH ☕ / HOSTED ON GITHUB PAGES</span>
   </div>
 </footer>
