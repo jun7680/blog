@@ -6,7 +6,7 @@ date = "2026-05-12T13:30:00+09:00"
 description = "iOS 14에서 들어온 UICollectionView.CellRegistration. 문자열 reuse ID 안 만들어도 되고, as! 캐스팅도 사라지고, cell 등록과 설정 코드가 한 곳으로 모인다. 단독으로도 쓸 수 있다."
 categories = ["Swift"]
 tags = ["UIKit", "UICollectionView", "CellRegistration", "iOS14"]
-image = ""
+image = "thumbnail.png"
 +++
 
 iOS 14에서 들어온 API인데 의외로 잘 안 알려진 쪽. 옛날 `register(_:forCellWithReuseIdentifier:)` + `dequeueReusableCell(withReuseIdentifier:)` 패턴을 쓰지 않게 된다. 처음 보면 살짝 낯설 수 있는데, 한 번 잡아두면 옛날 패턴으로 안 돌아감.

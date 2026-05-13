@@ -6,7 +6,7 @@ date = "2026-05-12T12:00:00+09:00"
 description = "SwiftUI List/LazyVStack 스크롤이 끊기거나 셀이 깜빡일 때 가장 먼저 보는 곳들. ForEach id, 셀 안 ViewModel 생성, AsyncImage 캐싱, 무거운 body 계산까지."
 categories = ["Swift"]
 tags = ["SwiftUI", "Performance", "List", "LazyVStack", "ForEach"]
-image = ""
+image = "thumbnail.png"
 +++
 
 SwiftUI에서 List나 LazyVStack에 row 100개 넣었더니 스크롤이 뚝뚝 끊기는 게 보인다. UIKit `UITableView`/`UICollectionView`보다 손이 덜 가는 대신 안 보이는 함정이 좀 있다. 디버깅하면서 매번 같은 패턴이 나와서 메모로 남긴다.

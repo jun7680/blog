@@ -6,7 +6,7 @@ date = "2026-05-12T12:30:00+09:00"
 description = "SwiftUI에서 상태 변화에 애니메이션 붙이려고 할 때 withAnimation, .animation modifier, .transition 셋이 어떻게 다른지. 그리고 .transition이 안 먹히는 흔한 케이스."
 categories = ["Swift"]
 tags = ["SwiftUI", "Animation", "Transition", "matchedGeometryEffect"]
-image = ""
+image = "thumbnail.png"
 +++
 
 SwiftUI 애니메이션 처음 만지면 `withAnimation`이랑 `.animation` modifier 둘 중에 뭘 써야 하는지가 가장 헷갈린다. 한 번 잡아두면 다 비슷한 구조라 편한데, 그 전까지는 적용했는데 애니메이션이 안 먹히는 케이스가 자꾸 나옴.

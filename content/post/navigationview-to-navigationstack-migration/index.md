@@ -6,7 +6,7 @@ date = "2026-05-12T12:30:00+09:00"
 description = "iOS 16에서 deprecated된 NavigationView를 NavigationStack으로 옮기면서 정리한 메모. 값 기반 push, NavigationPath, 시간 잡아먹은 두 자리."
 categories = ["Swift"]
 tags = ["SwiftUI", "NavigationStack", "Migration"]
-image = ""
+image = "thumbnail.png"
 +++
 
 NavigationView가 iOS 16에서 deprecated된 지 한참 됐는데, 콘솔 경고 한 줄만 무시하면서 끌고 왔다. SwiftData 마이그하면서 어차피 화면들 다시 만질 일 생긴 김에 같이 옮겼다.

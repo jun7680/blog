@@ -6,7 +6,7 @@ date = "2026-05-12T11:00:00+09:00"
 description = "iOS 17부터 @Observable 매크로 들어오면서 @StateObject/@ObservedObject 중에 뭘 쓸지 헷갈리던 게 거의 사라졌다."
 categories = ["Swift"]
 tags = ["SwiftUI", "Observable", "State", "iOS17"]
-image = ""
+image = "thumbnail.png"
 +++
 
 iOS 17 이전에는 SwiftUI 상태 관리할 때 `@StateObject`랑 `@ObservedObject` 중에 뭘 써야 하는지가 진짜 헷갈렸다. 둘 다 ViewModel 들고 다닐 때 쓰는데 동작이 미묘하게 달라서, 잘못 쓰면 자식 화면이 부모 리렌더할 때마다 상태 리셋된다. 17부터 [Observation 매크로](https://developer.apple.com/documentation/swiftui/migrating-from-the-observable-object-protocol-to-the-observable-macro)(`@Observable`) 들어오면서 이 고민 자체가 그냥 없어짐.

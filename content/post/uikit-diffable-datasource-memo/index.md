@@ -6,7 +6,7 @@ date = "2026-05-12T13:00:00+09:00"
 description = "UITableView/UICollectionView 데이터 소스의 새 표준. 옛날 cellForItemAt 패턴에서 DiffableDataSource로 옮기면서 정리한 기본 사용법, snapshot 동작, 흔한 사고."
 categories = ["Swift"]
 tags = ["UIKit", "UICollectionView", "DiffableDataSource", "iOS13"]
-image = ""
+image = "thumbnail.png"
 +++
 
 `UICollectionViewDiffableDataSource`는 iOS 13에서 들어온 데이터 소스 패턴. 기존 `cellForItemAt` + `numberOfItems` + `performBatchUpdates` 묶음을 **snapshot 한 번 적용**으로 갈음한다. 옛날 코드에서 옮기면서 정리한 메모.

@@ -5,6 +5,7 @@ date = "2022-06-15"
 description = "Swift 5.7에 들어온 변경 중 실무에서 매일 쓰게 되는 것들 위주 정리. if let 단축, any/some, 정규식 리터럴, distributed actor, 클로저 추론, 새 String 처리, Generics where 구문까지."
 categories = ["Swift"]
 tags = ["Swift", "Swift 5.7"]
+image = "thumbnail.png"
 +++
 
 WWDC 2022에서 Swift 5.7이 같이 풀렸다. 보통은 이런 마이너 버전에 큰 변화가 없는데, 5.7은 일상 코드에 영향을 주는 변경이 꽤 많아서 한 번 정리해 둔다. 다 적으면 너무 길어지니까 매일 쓰게 되는 7가지만 추렸다.

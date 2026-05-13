@@ -5,6 +5,7 @@ date = "2022-01-11"
 description = "GCD의 DispatchQueue·QoS 기본기와, 같은 코드를 async/await로 옮길 때 무엇이 달라지는지. 콜백 지옥, 에러 핸들링 분리, 데드락 함정까지."
 categories = ["Swift"]
 tags = ["Concurrency", "GCD", "asyncawait"]
+image = "thumbnail.png"
 +++
 
 iOS 개발에서 비동기 처리는 오랫동안 GCD(Grand Central Dispatch)가 도맡았다. 2021년 Swift Concurrency가 나오면서 async/await로 옮겨가는 분위기인데, 둘이 어떻게 다른지 그리고 GCD 코드를 들어내면서 만나는 함정을 한 번 정리해뒀다.

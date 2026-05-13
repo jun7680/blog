@@ -5,6 +5,7 @@ date = "2022-04-13"
 description = "UIStackView 안의 view에 isHidden을 애니메이션으로 토글할 때 누른 횟수만큼 다시 눌러야 보이는 현상의 원인과, 의도대로 동작시키는 안전한 패턴 정리."
 categories = ["Swift"]
 tags = ["UIStackView", "UIKit", "Animation"]
+image = "thumbnail.png"
 +++
 
 UIKit으로 토글 가능한 패널을 만들 때 가장 흔히 쓰는 건 `UIStackView` 안의 view에 `isHidden`을 적용하는 방식이다. 그런데 이걸 애니메이션 블록 안에서 토글하다 보면, **버튼을 다섯 번 누르면 다섯 번 다시 눌러야 보이는** 이상한 현상에 부딪힌다. 코드는 분명 한 줄인데 동작은 그렇지 않다. 처음 봤을 때는 디버그로 한참을 헤맸다.

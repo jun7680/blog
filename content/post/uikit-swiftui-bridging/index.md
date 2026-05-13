@@ -6,7 +6,7 @@ date = "2026-05-13T11:00:00+09:00"
 description = "UIKit과 SwiftUI를 같은 앱에서 섞어 쓸 때 등장하는 네 가지 다리(UIViewRepresentable, UIViewControllerRepresentable, UIHostingController, UIHostingConfiguration)의 용도, 패턴, 함정 정리."
 categories = ["Swift"]
 tags = ["SwiftUI", "UIKit", "UIViewRepresentable", "UIHostingController", "Migration"]
-image = ""
+image = "thumbnail.png"
 +++
 
 iOS 앱에서 UIKit과 SwiftUI를 한 번에 다 들어내는 마이그레이션은 거의 없다. 새 화면은 SwiftUI로 짜지만 기존 UIKit 컴포넌트가 한참 남아 있고, 또 반대로 SwiftUI 화면 안에 PDFView 같은 UIKit 전용 컨트롤을 넣어야 하는 경우도 있다. 그래서 두 프레임워크 사이를 잇는 다리 네 가지는 거의 모든 프로젝트에서 한 번씩 만난다. 어떤 상황에 어떤 걸 골라야 하는지 한 번 정리해 둔다.
