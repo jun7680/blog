@@ -2,7 +2,7 @@
 author = "오깅중"
 title = "Swift 6에서 매일 만나는 변화 7가지 — strict concurrency부터 typed throws까지"
 slug = "swift-6-language-changes"
-date = "2026-05-13T13:30:00+09:00"
+date = "2026-05-13T15:25:00+09:00"
 description = "Swift 6에서 매일 실무 코드를 만질 때 부딪히는 변경 7가지 정리. strict concurrency 모드, Sendable 강제, typed throws, existential any 강화, migration mode 등."
 categories = ["Swift"]
 tags = ["Swift", "Swift 6", "Concurrency", "Sendable", "TypedThrows"]
