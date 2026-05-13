@@ -128,8 +128,8 @@ button { font-family: inherit; cursor: pointer; }
   gap: 64px;
 }
 @media (max-width: 1024px) {
-  .page { grid-template-columns: 1fr; gap: 48px; padding: 40px 20px 64px; }
-  .site-header__inner { grid-template-columns: 1fr auto; padding: 14px 20px; gap: 16px; }
+  .page { grid-template-columns: minmax(0, 1fr); gap: 48px; padding: 40px 20px 64px; }
+  .site-header__inner { grid-template-columns: minmax(0, 1fr) auto; padding: 14px 20px; gap: 16px; }
   .site-nav {
     position: absolute;
     top: 100%;
