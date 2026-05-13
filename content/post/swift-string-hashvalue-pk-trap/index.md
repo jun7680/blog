@@ -9,9 +9,9 @@ tags = ["SwiftData", "Hashable", "PrimaryKey", "Migration", "Debugging"]
 image = "thumbnail.png"
 +++
 
-Realm에서 SwiftData로 마이그레이션 중에 상세 화면이 "데이터 로드 실패"로 떨어지는 버그가 나왔다. 리스트엔 아이템이 보이는데 탭하면 즉시 `dataNotFound`. 앱을 재시작하면 누적된 아이템들이 점점 더 많이 실패한다.
+SwiftData 마이그 중에 상세 화면이 자꾸 "데이터 로드 실패"로 떨어지는 버그를 잡고 있었다. 리스트엔 아이템이 멀쩡히 보이는데 탭만 하면 바로 `dataNotFound`. 더 빡친 건 앱 재시작할수록 실패하는 아이템이 점점 늘어남.
 
-DAO 코드를 보다가 PK를 만드는 부분에서 멈췄다.
+DAO 코드 한참 보다가 PK 만드는 부분에서 손이 멈췄다.
 
 ```swift
 extension ItemEntity2 {
@@ -21,11 +21,11 @@ extension ItemEntity2 {
 }
 ```
 
-문자열 합쳐서 `.hashValue` 박는 패턴. 자주 보이는 idiom이라 의심 없이 통과될 만한 코드다. 하지만 이게 원인이었다.
+문자열 합쳐서 `.hashValue` 박는 패턴. 자주 보이는 idiom이라 의심 없이 통과할 만한 코드. 근데 이게 원인이었다.
 
 ## Swift String.hashValue의 비밀
 
-Swift의 `String.hashValue`는 **프로세스마다 다르다**. 같은 문자열을 같은 OS, 같은 빌드에서 호출해도 앱이 재실행되면 값이 바뀐다.
+Swift의 `String.hashValue`는 **프로세스마다 다르다**. 같은 문자열을 같은 OS, 같은 빌드에서 호출해도 앱 재실행되면 값이 바뀜.
 
 ```swift
 // 세션 A에서
@@ -35,9 +35,9 @@ Swift의 `String.hashValue`는 **프로세스마다 다르다**. 같은 문자�
 "1-123".hashValue  // 예: -1283742983742
 ```
 
-왜? Swift의 `Hashable` 구현은 **per-process random seed**를 쓴다. 보안적 동기 — hash flooding 공격(악의적 입력으로 dict의 hash collision을 유도해 O(n²)로 만드는 공격)을 방지하기 위해 프로세스 시작 시 seed를 무작위로 결정한다. ASLR과 같은 결의 방어 메커니즘이다.
+왜? Swift의 `Hashable` 구현은 **per-process random seed**를 씀. 보안적 동기 — hash flooding 공격(악의적 입력으로 dict의 hash collision을 유도해 O(n²)로 만드는 공격) 방지하려고 프로세스 시작 시 seed를 무작위로 결정함. ASLR이랑 같은 결의 방어 메커니즘.
 
-dict의 in-memory bucket lookup에는 아무 문제가 없다. 같은 프로세스 안에서는 seed가 일정하니까. 그런데 **DB에 영구 저장하면 얘기가 다르다**.
+dict의 in-memory bucket lookup에는 아무 문제 없음. 같은 프로세스 안에선 seed가 일정하니까. 근데 **DB에 영구 저장하면 얘기가 다름**.
 
 ## 무엇이 일어났는가
 
@@ -54,13 +54,13 @@ dict의 in-memory bucket lookup에는 아무 문제가 없다. 같은 프로세�
   → 0건 반환 (실제 데이터는 7842934729384로 저장돼 있음)
 ```
 
-upsert는 update 대신 insert로 빠지고, lookup은 영구 실패한다. 매 재시작마다 중복 행이 누적되고, 화면에선 "데이터 없음"으로 보인다. `try? context.save()`는 unique 제약 위반에도 에러를 삼키니 로그도 안 남는다.
+upsert는 update 대신 insert로 빠지고, lookup은 영구 실패. 매 재시작마다 중복 행이 누적되고, 화면에선 "데이터 없음"으로 보임. `try? context.save()`는 unique 제약 위반에도 에러를 삼키니 로그도 안 남음.
 
-증상은 "조용히 모든 게 안 됨". 디버깅이 진짜 어렵다.
+증상은 "조용히 모든 게 안 됨". 디버깅 진짜 미쳐버린다.
 
 ## 해결: 결정적 산술 hash
 
-PK는 **프로세스 무관하게 같은 입력에 항상 같은 출력**이어야 한다. 그래서 직접 산술 hash를 짠다. Boost의 `hash_combine` 패턴이 좋은 출발점이다.
+PK는 **프로세스 무관하게 같은 입력에 항상 같은 출력**이어야 한다. 그래서 직접 산술 hash로 짜야 함. Boost의 `hash_combine` 패턴이 좋은 출발점.
 
 ```swift
 extension ItemEntity2 {
@@ -79,9 +79,9 @@ extension ItemEntity2 {
 }
 ```
 
-`0x9E3779B97F4A7C15`는 황금비 기반 상수로, 비트 분포를 고르게 흩뿌리는 효과가 있어 collision이 적다.
+`0x9E3779B97F4A7C15`는 황금비 기반 상수로, 비트 분포를 고르게 흩뿌리는 효과가 있어서 collision이 적다.
 
-scope 같은 2-state enum이 끼면 더 간단하게 비트 패킹도 가능하다.
+scope 같은 2-state enum이 끼면 더 간단하게 비트 패킹도 가능.
 
 ```swift
 static func makeID(remoteItemID: Int, scope: ItemScopeType) -> Int {
@@ -89,11 +89,11 @@ static func makeID(remoteItemID: Int, scope: ItemScopeType) -> Int {
 }
 ```
 
-핵심은 **프로세스 무관 + 결정적**이라는 두 조건이다.
+핵심은 **프로세스 무관 + 결정적** 두 조건.
 
 ## 마이그레이션 처리
 
-이미 `.hashValue`로 저장된 데이터가 운영 중인 DB에 있다면? 알고리즘을 바꾸는 순간 기존 row의 id가 새 알고리즘으로 다시 계산되지 않으므로 **lookup 자체가 안 됨**. 일회성 wipe 마이그레이션이 필요하다.
+이미 `.hashValue`로 저장된 데이터가 운영 중인 DB에 있다면? 알고리즘 바꾸는 순간 기존 row의 id가 새 알고리즘으로 다시 계산되지 않으므로 **lookup 자체가 안 됨**. 일회성 wipe 마이그레이션 필요.
 
 ```swift
 enum SwiftDataBootstrap {
@@ -113,19 +113,19 @@ enum SwiftDataBootstrap {
 }
 ```
 
-UserDefaults flag로 1회만 실행 보장. 다음 sync 사이클에서 서버가 다시 채워준다.
+UserDefaults flag로 1회만 실행 보장. 다음 sync 사이클에서 서버가 다시 채워줌.
 
 ## 교훈
 
-`.hashValue`는 **메모리 내 lookup 전용**이다. 디스크에 박는 순간 함정이 된다.
+`.hashValue`는 **메모리 내 lookup 전용**. 디스크에 박는 순간 함정 됨.
 
-DB PK를 만들 때 점검 리스트:
+DB PK 만들 때 점검 리스트:
 
 - [ ] 같은 입력에 항상 같은 출력? (결정적)
 - [ ] 프로세스 재시작에도 같은 출력? (per-process seed 사용 안 함)
 - [ ] OS/플랫폼/Swift 버전 바뀌어도 같은 출력? (산술만 사용)
 
-`String.hashValue`, `Hasher.combine`, `AnyHashable` 모두 1번은 충족하지만 2번을 깬다. 산술 hash(`hash_combine` 류) 또는 비트 패킹으로 가야 한다.
+`String.hashValue`, `Hasher.combine`, `AnyHashable` 다 1번은 충족하지만 2번을 깬다. 산술 hash(`hash_combine` 류) 또는 비트 패킹으로 가야 함.
 
 ## 참고
 

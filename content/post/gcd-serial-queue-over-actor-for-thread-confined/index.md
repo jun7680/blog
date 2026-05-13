@@ -9,7 +9,7 @@ tags = ["Swift", "Concurrency", "GCD", "Actor", "Realm", "Debugging"]
 image = "thumbnail.png"
 +++
 
-크래시 리포트에 이런 시그니처가 떴다.
+크래시 리포트에 이런 시그니처가 떴다. 보자마자 빡쳤다 ㅋㅋ.
 
 ```
 EXC_BREAKPOINT in:
@@ -18,9 +18,9 @@ closure #1 in static Log.saveLogData(message:)
    └─ _xzm_xzone_malloc_freelist_outlined
 ```
 
-힙 corruption 패턴. 메모리 할당 단에서 깨지면서 SIGTRAP. 빈도는 낮지만 일관되게 나옴.
+힙 corruption 패턴. 메모리 할당 단에서 깨지면서 SIGTRAP. 빈도는 낮은데 일관되게 나옴.
 
-스택을 따라 `Log.saveLogData`로 갔다. 호출처를 grep해보니 **306곳**. 모든 곳에서 비동기로 떨어지는 진단 로그가 단일 라이터에 몰리는 구조였다.
+스택 따라가서 `Log.saveLogData`로 갔다. 호출처를 grep해보니 **306곳**. 모든 곳에서 비동기로 떨어지는 진단 로그가 단일 라이터에 몰리는 구조였다.
 
 ## 기존 구조의 세 가지 문제
 
@@ -52,15 +52,15 @@ actor LogDBWriter {
 ```
 
 **① 매 호출마다 Task 스폰 (306곳에서)**
-디버깅 코드 한 줄에 Task가 하나씩. 트래픽 피크 구간에서 cooperative thread pool에 부하가 누적된다.
+디버깅 코드 한 줄에 Task가 하나씩. 트래픽 피크 구간에서 cooperative thread pool에 부하가 누적됨.
 
 **② isWriting 플래그로 동시 도착 로그 드롭**
-정작 진단이 필요한 burst 구간에서 로그 대부분이 사라진다. 진단 도구가 진단 가능 구간에서 침묵하는 모순.
+정작 진단 필요한 burst 구간에서 로그 대부분이 사라짐. 진단 도구가 진단 가능 구간에서 침묵하는 모순.
 
 **③ actor 내부 이중 Task 스폰**
-`save()`가 이미 actor 메서드인데 안에서 또 Task. 호출 1번에 Task 2개. 거기에 Realm `write` 클로저가 또 thread를 점유. 메모리 / lifecycle이 꼬일 환경 다 갖춰짐.
+`save()`가 이미 actor 메서드인데 안에서 또 Task. 호출 1번에 Task 2개. 거기에 Realm `write` 클로저가 또 thread 점유. 메모리 / lifecycle이 꼬일 환경 다 갖춰진 셈.
 
-세 개가 합쳐져 cooperative pool 위에서 thread-confined한 Realm engine을 두드리는 구조가 됐다. Realm C++ 엔진은 thread confinement가 빡빡해서 wrong thread access는 즉시 crash. cooperative pool은 hop이 자주 일어나니 충돌 확률이 시간 흐를수록 누적된다.
+세 개 합쳐져서 cooperative pool 위에서 thread-confined한 Realm engine을 두드리는 구조가 됐다. Realm C++ 엔진은 thread confinement가 빡빡해서 wrong thread access는 즉시 crash. cooperative pool은 hop이 자주 일어나니 충돌 확률이 시간 흐를수록 누적됨.
 
 ## 후보 1: actor + AsyncStream
 
@@ -105,7 +105,7 @@ actor LogDBWriter {
 - thread hop이 불특정 시점에 일어남 (런타임 스케줄링에 위임)
 - actor가 single concurrent context는 보장하지만 single OS thread는 보장하지 않음
 
-Realm/SwiftData는 ModelContext도 thread-confined다. cooperative pool 위에 올리면 어느 순간 wrong thread access가 일어날 수 있다. crash signature가 정확히 그 패턴이었으니, 같은 패러다임으로 옮기는 건 해결이 아니라 자리 옮기기다.
+Realm/SwiftData는 ModelContext도 thread-confined임. cooperative pool 위에 올리면 어느 순간 wrong thread access 일어날 수 있음. crash signature가 정확히 그 패턴이었으니까, 같은 패러다임으로 옮기는 건 해결이 아니라 자리 옮기기.
 
 ## 후보 2: GCD 시리얼 큐 + 전용 스레드 (✅ 채택)
 
@@ -155,25 +155,25 @@ final class LogDBWriter {
 - Task 스폰 0개
 
 단점:
-- async/await 시대에 GCD를 쓰는 게 "구식"으로 보일 수 있음
+- async/await 시대에 GCD 쓰는 게 "구식"으로 보일 수 있음
 - 호출처에서 `await` 못 씀 (애초에 fire-and-forget이라 필요 없지만)
 
-핵심은 **"actor가 단일 concurrent context는 보장하지만 단일 OS 스레드는 보장하지 않는다"**는 사실. Realm은 후자를 요구한다. 그러니 actor가 아니라 serial DispatchQueue가 답이다.
+핵심은 **"actor가 단일 concurrent context는 보장하지만 단일 OS 스레드는 보장하지 않는다"**는 사실. Realm은 후자를 요구함. 그러니까 actor가 아니라 serial DispatchQueue가 답이다.
 
 ## 일반화: Swift Concurrency가 답이 아닌 경우
 
-Swift Concurrency는 강력하지만 만능이 아니다. 다음 조건이 겹치면 GCD를 고려한다.
+Swift Concurrency는 강력하지만 만능 아님. 다음 조건이 겹치면 GCD를 고려.
 
 - **Thread confinement가 빡빡한 외부 라이브러리** (Realm, SwiftData, SQLite WAL, OpenGL, audio I/O 등)
 - **단일 OS 스레드 보장이 필요**한 경우
 - **호출처가 async context가 아닌** 동기 영역에서 fire-and-forget로 떨어지는 케이스
 
-이 조건들에서 actor + AsyncStream을 쓰면 cooperative pool 위에서 hop이 일어나고, hop이 thread-confined 자원과 충돌한다. crash signature가 누적된다.
+이 조건들에서 actor + AsyncStream 쓰면 cooperative pool 위에서 hop 일어나고, hop이 thread-confined 자원이랑 충돌함. crash signature 누적됨.
 
 ## 교훈
 
-"actor를 쓰면 모든 thread 문제가 해결된다"는 흔한 오해. actor는 **mutual exclusion**을 보장하지만 **thread identity**를 보장하지 않는다.
+"actor 쓰면 모든 thread 문제가 해결된다"는 흔한 오해. actor는 **mutual exclusion**을 보장하지만 **thread identity**를 보장하지 않는다.
 
-Realm, SwiftData, ModelContext, 일부 C++ engine은 thread identity까지 요구한다. 그 자원을 다루는 코드는 actor가 아니라 single-threaded executor 위에 올려야 안전하다. GCD serial queue가 단순하면서 정확한 선택이다.
+Realm, SwiftData, ModelContext, 일부 C++ engine은 thread identity까지 요구함. 그 자원 다루는 코드는 actor가 아니라 single-threaded executor 위에 올려야 안전. GCD serial queue가 단순하면서 정확한 선택이다.
 
-신기술이 좋아 보여서 갈아엎기 전에, 새 도구가 기존 도구가 해결하던 보장을 모두 제공하는지 점검하라. 그게 도구 선택의 첫 단계다.
+신기술이 좋아 보여서 갈아엎기 전에, 새 도구가 기존 도구가 해결하던 보장을 모두 제공하는지 점검하자. 그게 도구 선택의 첫 단계.

@@ -9,9 +9,9 @@ tags = ["SwiftData", "Attribute", "Unique", "Sentinel", "Debugging"]
 image = "thumbnail.png"
 +++
 
-SwiftData 마이그레이션 작업 중에 본문 데이터가 한 건만 남고 나머지는 사라지는 버그가 나왔다. API 응답엔 100건이 오는데 DB엔 1건. 더 황당한 건 — 에러가 단 한 줄도 안 떴다.
+SwiftData 마이그 중에 본문 데이터가 한 건만 남고 나머지는 사라지는 버그를 잡고 있었다. API 응답엔 100건이 오는데 DB엔 1건. 더 황당한 건 — 에러가 단 한 줄도 안 뜸.
 
-`try? context.save()`가 모든 걸 삼키고 있었다.
+`try? context.save()`가 모든 걸 삼키고 있었다 ㅋㅋ.
 
 ## 코드
 
@@ -32,7 +32,7 @@ final class ContentBodyEntity2 {
 }
 ```
 
-`.invalidInt`는 프로젝트 컨벤션으로 `-1`이다. "아직 id가 정해지지 않은 스캐폴드 상태"를 의미하는 sentinel. 호출처에서 id 결정하기 전에 임시로 박아두는 패턴이다.
+`.invalidInt`는 프로젝트 컨벤션으로 `-1`. "아직 id가 정해지지 않은 스캐폴드 상태"를 의미하는 sentinel. 호출처에서 id 결정하기 전에 임시로 박아두는 패턴이다.
 
 ## 무엇이 일어났는가
 
@@ -47,7 +47,7 @@ context.insert(entity)
 try? context.save()
 ```
 
-100건이 들어오면 id가 모두 `-1`이다. `@Attribute(.unique)` 제약에 의해:
+100건 들어오면 id가 다 `-1`. `@Attribute(.unique)` 제약 때문에:
 
 - 첫 번째 entity: insert 성공 (id=-1로 저장됨)
 - 두 번째 entity: id=-1 충돌 → SwiftData가 **insert를 update로 silent하게 변환**
@@ -55,7 +55,7 @@ try? context.save()
 - ...
 - 100번째까지 동일 → 결국 마지막 1건만 살아남음
 
-`try? context.save()`가 throw를 삼키니 로그도 안 남는다. 1건만 보일 뿐 화면은 "정상 동작"으로 보인다.
+`try? context.save()`가 throw를 삼키니 로그도 안 남음. 1건만 보일 뿐 화면은 "정상 동작"으로 보임.
 
 조회 단계에서 비로소 증상이 드러난다.
 
@@ -67,19 +67,19 @@ func read(remoteItemID: Int) -> ContentBodyEntity2? {
 }
 ```
 
-99건은 사라졌으니 대부분의 `read`가 nil. 화면에선 "데이터 없음 → dataNotFound alert".
+99건은 날아갔으니 대부분의 `read`가 nil. 화면에선 "데이터 없음 → dataNotFound alert" ㅋㅋ.
 
 ## 함정의 본질
 
 세 가지 패턴이 겹쳤다.
 
-**1. sentinel default value (`.invalidInt`)**: 코드 가독성을 위해 도입했지만, "아직 결정 안 됨"을 표현하려는 의도가 unique 제약과 만나면 "모두 같은 값"이 되어버린다.
+**1. sentinel default value (`.invalidInt`)**: 코드 가독성 위해 도입했지만, "아직 결정 안 됨"을 표현하려는 의도가 unique 제약이랑 만나면 "모두 같은 값"이 되어버림.
 
-**2. unique 제약의 silent upsert 동작**: SwiftData는 unique 충돌 시 throw하지 않고 silently update로 변환한다. 의도된 동작이지만, 그 의도가 "유효한 id가 들어왔다는 전제"에 기댄다. sentinel과는 호환되지 않는다.
+**2. unique 제약의 silent upsert 동작**: SwiftData는 unique 충돌 시 throw 안 하고 silently update로 변환함. 의도된 동작이지만, 그 의도가 "유효한 id가 들어왔다는 전제"에 기댐. sentinel이랑은 호환 안 됨.
 
-**3. try?의 에러 삼킴**: 마지막 안전망인 throw도 `try?` 한 줄에 막힌다.
+**3. try?의 에러 삼킴**: 마지막 안전망인 throw도 `try?` 한 줄에 막힘.
 
-각각 따로 보면 다 합리적인 선택이다. 합쳐지면 함정이 된다.
+각각 따로 보면 다 합리적인 선택. 합쳐지면 함정 됨.
 
 ## 해결
 
@@ -108,11 +108,11 @@ final class ContentBodyEntity2 {
 }
 ```
 
-기본값 `.invalidInt`를 없애면 컴파일러가 강제한다.
+기본값 `.invalidInt`를 없애면 컴파일러가 강제함.
 
 ### 2. DAO 진입 시점에 안전망
 
-기존 코드가 많아 일괄 수정이 부담스러우면, DAO 레이어에서 한 번 더 막는다.
+기존 코드가 많아서 일괄 수정 부담스러우면 DAO 레이어에서 한 번 더 막는다.
 
 ```swift
 enum ContentBodyDAO {
@@ -136,14 +136,14 @@ do {
 }
 ```
 
-`try?`는 "에러가 나도 괜찮은" 진짜 best-effort 경로에만 쓴다. 데이터 저장 같은 핵심 경로에는 안 된다.
+`try?`는 "에러가 나도 괜찮은" 진짜 best-effort 경로에만 쓴다. 데이터 저장 같은 핵심 경로에는 절대 X.
 
 ## 교훈
 
-`.unique` 제약은 강력하지만 silent upsert 동작이 sentinel 패턴과 상극이다. 셋 중 하나라도 막으면 함정이 안 만들어진다.
+`.unique` 제약은 강력하지만 silent upsert 동작이 sentinel 패턴이랑 상극임. 셋 중 하나라도 막으면 함정이 안 생김.
 
 - sentinel 안 쓰기 (PK는 생성 시점에 결정)
 - 또는 DAO 진입 시점에 sentinel → 실제 id 변환
 - 또는 `try?`를 `try` + 로깅으로 바꿔서 silent 실패 가시화
 
-세 개 다 적용하면 다층 방어가 된다. 마이그레이션 같은 대규모 변경 작업에서는 다층 방어가 안전마진이다.
+세 개 다 적용하면 다층 방어가 된다. 마이그 같은 대규모 변경 작업에선 다층 방어가 안전마진이지.
