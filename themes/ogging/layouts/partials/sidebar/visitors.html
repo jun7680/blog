@@ -3,26 +3,38 @@
   <div class="card__head">
     <span class="card__title">VISITORS</span>
   </div>
-  <div id="gc-visitors" class="gc-visitors">
-    <span class="gc-visitors__placeholder">measuring…</span>
+  <div class="gc-stats">
+    <div class="gc-stat">
+      <span class="gc-stat__label">오늘</span>
+      <span class="gc-stat__value" id="gc-today">—</span>
+    </div>
+    <div class="gc-stat">
+      <span class="gc-stat__label">누적</span>
+      <span class="gc-stat__value" id="gc-total">—</span>
+    </div>
   </div>
   <script>
     (function () {
-      function render() {
-        if (!window.goatcounter || !window.goatcounter.visit_count) {
-          setTimeout(render, 300);
-          return;
-        }
-        var slot = document.getElementById('gc-visitors');
-        if (slot) { slot.innerHTML = ''; }
-        window.goatcounter.visit_count({
-          append: '#gc-visitors',
-          path: 'TOTAL',
-          type: 'html',
-          no_branding: true
-        });
+      var site = {{ . | jsonify }};
+      var base = 'https://' + site + '.goatcounter.com/counter/TOTAL.json';
+      var today = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Seoul' }).format(new Date());
+
+      function load(url, id) {
+        fetch(url, { credentials: 'omit' })
+          .then(function (r) { return r.ok ? r.json() : null; })
+          .then(function (d) {
+            var el = document.getElementById(id);
+            if (!el) return;
+            el.textContent = (d && d.count) ? d.count : '0';
+          })
+          .catch(function () {
+            var el = document.getElementById(id);
+            if (el) el.textContent = '—';
+          });
       }
-      render();
+
+      load(base, 'gc-total');
+      load(base + '?start=' + today + '&end=' + today, 'gc-today');
     })();
   </script>
 </div>
