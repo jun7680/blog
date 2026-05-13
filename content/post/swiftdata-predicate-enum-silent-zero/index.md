@@ -21,7 +21,7 @@ let results = try context.fetch(descriptor)
 // results.count == 0
 ```
 
-DB엔 분명히 `scope = .inbox`인 row가 100건 들어있다. 근데 predicate는 0건을 반환한다. throw도 없고, 로그도 없다.
+DB엔 분명히 `scope = .inbox`인 row가 100건 들어있다. 근데 predicate는 0건 반환. throw도 없고, 로그도 없음.
 
 ## 원인: SQL 번역 실패
 
@@ -45,7 +45,7 @@ SwiftData `@Model`은 이걸 `Codable raw value`로 저장함. `scope = .inbox`�
 // → 실행 자체는 되지만 매칭 0건
 ```
 
-표준 타입(`Int`, `String`, `Bool`, `Date` 등)이면 SQL로 직역되니까 잘 동작한다. enum, `OptionSet`, 커스텀 struct 같은 건 침묵 속에 0건을 받는다.
+표준 타입(`Int`, `String`, `Bool`, `Date` 등)이면 SQL로 직역되니까 잘 됨. enum, `OptionSet`, 커스텀 struct 같은 건 침묵 속에 0건을 받게 됨.
 
 ## 어디까지가 되고 어디서부터 안 되는가
 
@@ -118,7 +118,7 @@ static func makeID(itemID: Int, scope: ItemScopeType) -> Int {
 }
 ```
 
-같은 itemID라도 scope별로 PK가 다르니 unique 제약 통과하고, predicate는 itemID/scope 조합으로 정확하게 lookup된다. 다만 PK 알고리즘이 도메인을 가지게 되어 결합도가 좀 높아진다.
+같은 itemID라도 scope별로 PK가 다르니 unique 제약 통과하고, predicate는 itemID/scope 조합으로 정확하게 lookup됨. 다만 PK 알고리즘이 도메인을 가지게 되어 결합도가 좀 높아짐.
 
 ## 왜 SwiftData가 throw하지 않는가
 
@@ -137,4 +137,4 @@ static func makeID(itemID: Int, scope: ItemScopeType) -> Int {
 - 한두 번만 쓰는 거면 fetch 후 Swift filter
 - "왜 결과가 없지?" 의심 시작했으면 predicate에 표준 외 타입 끼었는지부터 확인
 
-SwiftData는 Swift로 쓰지만 SQL로 실행된다. 두 세상의 경계는 `#Predicate`. 그 경계에서 뭐가 번역되는지 알아두면 침묵을 미리 피할 수 있다.
+SwiftData는 Swift로 쓰지만 SQL로 실행됨. 두 세상의 경계는 `#Predicate`. 그 경계에서 뭐가 번역되는지 알아두면 침묵을 미리 피할 수 있다.

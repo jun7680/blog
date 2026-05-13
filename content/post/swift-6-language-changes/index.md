@@ -68,7 +68,7 @@ func process(_ config: Config) async {
 }
 ```
 
-해결: `struct Config: Sendable { ... }`. 모든 stored property가 Sendable이면 자동 합성된다. 클래스면 `final class + 모든 프로퍼티 let` 또는 actor로 격리.
+해결: `struct Config: Sendable { ... }`. 모든 stored property가 Sendable이면 자동 합성됨. 클래스면 `final class + 모든 프로퍼티 let` 또는 actor로 격리.
 
 ## 4. Typed Throws — 에러 타입 명시
 
@@ -147,11 +147,11 @@ let h2 = h1   // Swift 6: 컴파일 에러 - cannot copy noncopyable
 1. **"X is not Sendable"** — actor 경계 넘는 값이 Sendable이 아님. 값 타입이면 `: Sendable` 추가, 클래스면 actor 격리나 `final class + Sendable` 검토.
 2. **"Reference to protocol 'X' requires 'any'"** — 프로토콜 타입을 변수/파라미터로 받는 자리. `any X` 또는 `some X`로 명시.
 
-이 둘만 정리하면 80%는 끝난다. 나머지는 typed throws나 `~Copyable` 도입 같은 *추가 기능* 영역이라 점진적으로 들이면 된다.
+이 둘만 정리하면 80%는 끝남. 나머지는 typed throws나 `~Copyable` 도입 같은 *추가 기능* 영역이라 점진적으로 들이면 됨.
 
 ## 정리
 
-- Swift 6의 핵심은 **strict concurrency를 컴파일 타임 보장으로 끌어올린 것**. 옛 경고가 다 에러로 격상됐다.
+- Swift 6의 핵심은 **strict concurrency를 컴파일 타임 보장으로 끌어올린 것**. 옛 경고가 다 에러로 격상됨.
 - 한 번에 다 못 옮기면 `swiftLanguageMode(.v5)`로 모듈 단위 점진 마이그.
 - typed throws / `~Copyable` / `count(where:)` 같은 작은 개선이 매일 쓰는 코드에 의외로 자주 들어옴.
 - 5.7에서 권장이었던 `any`가 6에선 필수. 옛 코드의 `Transport`를 `any Transport`로 다 손봐야 함.

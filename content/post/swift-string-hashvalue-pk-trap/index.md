@@ -54,7 +54,7 @@ dict의 in-memory bucket lookup에는 아무 문제 없음. 같은 프로세스 
   → 0건 반환 (실제 데이터는 7842934729384로 저장돼 있음)
 ```
 
-upsert는 update 대신 insert로 빠지고, lookup은 영구 실패. 매 재시작마다 중복 행이 누적되고, 화면에선 "데이터 없음"으로 보인다. `try? context.save()`는 unique 제약 위반에도 에러를 삼키니 로그도 안 남는다.
+upsert는 update 대신 insert로 빠지고, lookup은 영구 실패. 매 재시작마다 중복 행이 누적되고, 화면에선 "데이터 없음"으로 보임. `try? context.save()`는 unique 제약 위반에도 에러를 삼키니 로그도 안 남음.
 
 증상은 "조용히 모든 게 안 됨". 디버깅 진짜 미쳐버린다.
 
@@ -117,7 +117,7 @@ UserDefaults flag로 1회만 실행 보장. 다음 sync 사이클에서 서버�
 
 ## 교훈
 
-`.hashValue`는 **메모리 내 lookup 전용**이다. 디스크에 박는 순간 함정이 된다.
+`.hashValue`는 **메모리 내 lookup 전용**. 디스크에 박는 순간 함정 됨.
 
 DB PK 만들 때 점검 리스트:
 
