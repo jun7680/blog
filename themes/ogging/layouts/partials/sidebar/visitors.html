@@ -21,13 +21,20 @@
 
       function load(url, id) {
         fetch(url, { credentials: 'omit' })
-          .then(function (r) { return r.ok ? r.json() : null; })
+          .then(function (r) {
+            if (!r.ok) {
+              console.warn('[visitors] HTTP', r.status, url);
+              return null;
+            }
+            return r.json();
+          })
           .then(function (d) {
             var el = document.getElementById(id);
             if (!el) return;
             el.textContent = (d && d.count) ? d.count : '0';
           })
-          .catch(function () {
+          .catch(function (err) {
+            console.warn('[visitors] fetch failed:', err && err.message, url);
             var el = document.getElementById(id);
             if (el) el.textContent = '—';
           });
