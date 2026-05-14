@@ -14,7 +14,7 @@ tags = [
     "iOS"
 ]
 slug = "swift-protocol-optional-property-trap"
-image = "thumbnail.jpg"
+image = "thumbnail.png"
 +++
 
 ## 도입

@@ -6,7 +6,7 @@ date = "2026-05-14T16:26:17+09:00"
 description = "상세 화면을 UIKit MVVM+C에서 SwiftUI MVI(Store)로 갈아엎으면서 Coordinator 외부 시그니처는 한 글자도 안 바꾼 이유와 방법 정리."
 categories = ["Swift"]
 tags = ["Coordinator", "UIKit", "SwiftUI", "MVI", "Migration", "Architecture"]
-image = "thumbnail.jpg"
+image = "thumbnail.png"
 +++
 
 ## 도입

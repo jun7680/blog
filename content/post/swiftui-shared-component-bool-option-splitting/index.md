@@ -14,7 +14,7 @@ tags = [
     "Refactoring",
     "ComponentDesign"
 ]
-image = "thumbnail.jpg"
+image = "thumbnail.png"
 +++
 
 ## 도입

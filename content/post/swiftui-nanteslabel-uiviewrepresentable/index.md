@@ -6,7 +6,7 @@ date = "2026-05-14T16:26:21+09:00"
 description = "SwiftUI Text로는 안 되는 자동 링크 탐지, 줄 수 제한, 더 보기 토글을 UIKit NantesLabel을 UIViewRepresentable로 래핑해서 해결한 패턴과 네 가지 함정 정리."
 categories = ["Swift"]
 tags = ["SwiftUI", "UIKit", "UIViewRepresentable", "NantesLabel", "Bridging"]
-image = "thumbnail.jpg"
+image = "thumbnail.png"
 +++
 
 코멘트 영역을 SwiftUI로 짜고 있었다. 요구사항은 셋이다.
