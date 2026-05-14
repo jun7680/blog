@@ -14,6 +14,7 @@ tags = [
     "Coordinator",
     "Workflow"
 ]
+image = "thumbnail.jpg"
 +++
 
 ## 도입

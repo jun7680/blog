@@ -16,6 +16,7 @@ tags = [
     "Transition",
     "UIStackView"
 ]
+image = "thumbnail.jpg"
 +++
 
 ## 도입

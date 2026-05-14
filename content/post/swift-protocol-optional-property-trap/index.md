@@ -13,6 +13,8 @@ tags = [
     "ProtocolHierarchy",
     "iOS"
 ]
+slug = "swift-protocol-optional-property-trap"
+image = "thumbnail.jpg"
 +++
 
 ## 도입

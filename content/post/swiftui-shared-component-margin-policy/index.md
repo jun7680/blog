@@ -14,6 +14,7 @@ tags = [
     "Padding",
     "DesignSystem"
 ]
+image = "thumbnail.jpg"
 +++
 
 ## 도입
