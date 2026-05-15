@@ -117,5 +117,5 @@ params:
     # placeholder는 미리보기/개발용 — 평소엔 false 유지.
     enabled: false
     placeholder: false
-    client: ""
+    client: "ca-pub-8273127451497178"
     slot: ""

@@ -57,6 +57,6 @@
 <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
 
 <link rel="alternate" type="application/rss+xml" href="{{ "index.xml" | absURL }}" title="{{ site.Title }} RSS">
-{{ with site.Params.adsense }}{{ if and .enabled .client }}
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ .client }}" crossorigin="anonymous"></script>
+{{ with site.Params.adsense }}{{ with .client }}
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ . }}" crossorigin="anonymous"></script>
 {{ end }}{{ end }}
