@@ -2,10 +2,19 @@
   var html = document.documentElement;
 
   var bar = document.getElementById('progress-bar');
+  var siteHeader = document.querySelector('.site-header');
+  var compactThreshold = 60;
+  function getScrollTop() {
+    return window.pageYOffset || html.scrollTop || document.body.scrollTop || 0;
+  }
   function onScroll() {
+    var top = getScrollTop();
     var max = html.scrollHeight - html.clientHeight;
-    var pct = max > 0 ? (html.scrollTop / max) * 100 : 0;
+    var pct = max > 0 ? (top / max) * 100 : 0;
     if (bar) bar.style.width = pct + '%';
+    if (siteHeader) {
+      siteHeader.classList.toggle('is-compact', top > compactThreshold);
+    }
   }
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();

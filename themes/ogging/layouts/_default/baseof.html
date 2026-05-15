@@ -7,6 +7,11 @@
 <body>
 <div class="scroll-progress"><div id="progress-bar"></div></div>
 {{ partial "header.html" . }}
+<div class="site-tagline" role="doc-subtitle">
+  <span class="site-tagline__bracket">[</span>
+  <span class="site-tagline__text">AI보다 빨리 디버깅하기</span>
+  <span class="site-tagline__bracket">]</span>
+</div>
 <main class="page">
   <div>
     {{ block "main" . }}{{ end }}
