@@ -3,7 +3,9 @@
 
   var bar = document.getElementById('progress-bar');
   var siteHeader = document.querySelector('.site-header');
-  var compactThreshold = 60;
+  var compactEnter = 80;
+  var compactExit = 30;
+  var isCompact = false;
   function getScrollTop() {
     return window.pageYOffset || html.scrollTop || document.body.scrollTop || 0;
   }
@@ -13,7 +15,13 @@
     var pct = max > 0 ? (top / max) * 100 : 0;
     if (bar) bar.style.width = pct + '%';
     if (siteHeader) {
-      siteHeader.classList.toggle('is-compact', top > compactThreshold);
+      if (!isCompact && top > compactEnter) {
+        isCompact = true;
+        siteHeader.classList.add('is-compact');
+      } else if (isCompact && top < compactExit) {
+        isCompact = false;
+        siteHeader.classList.remove('is-compact');
+      }
     }
   }
   window.addEventListener('scroll', onScroll, { passive: true });
