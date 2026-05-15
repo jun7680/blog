@@ -24,6 +24,7 @@
 
 {{/* 검색엔진 / AdSense 사이트 소유권 검증 */}}
 {{ with site.Params.siteVerification }}<meta name="google-site-verification" content="{{ . }}">{{ end }}
+{{ with site.Params.naverSiteVerification }}<meta name="naver-site-verification" content="{{ . }}">{{ end }}
 {{ with site.Params.adsense }}{{ with .client }}<meta name="google-adsense-account" content="{{ . }}">{{ end }}{{ end }}
 
 <meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}">

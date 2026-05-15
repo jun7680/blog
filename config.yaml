@@ -100,6 +100,11 @@ params:
   # 비워두면 메타 미출력.
   siteVerification: ""
 
+  # Naver Search Advisor 사이트 소유권 메타 검증 코드(content 값만).
+  # https://searchadvisor.naver.com/console/site → 사이트 등록 → "HTML 태그" 인증.
+  # 비워두면 메타 미출력.
+  naverSiteVerification: "d6a2cbad0afbab2751d616c4188a11743ef463bc"
+
   # GoatCounter 방문자 카운터
   # https://www.goatcounter.com/signup → site code 받음(예: ogging → "ogging.goatcounter.com")
   # 가입 후 Settings → "Allow adding visitor counts on your website" 체크해야 위젯 동작.
