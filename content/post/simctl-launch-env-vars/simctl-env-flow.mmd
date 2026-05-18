@@ -1,0 +1,14 @@
+flowchart LR
+    subgraph Bad["❌ KEY=VAL을 그대로 넘긴 경우"]
+        A1["부모 셸<br/>simctl launch &lt;bundle&gt; FORCE_LABS_ENABLED=0"]
+        A2["simctl<br/>토큰을 argv로 해석"]
+        A3["앱 프로세스<br/>ProcessInfo.arguments = [..., 'FORCE_LABS_ENABLED=0']<br/>ProcessInfo.environment['FORCE_LABS_ENABLED'] = nil"]
+        A1 --> A2 --> A3
+    end
+
+    subgraph Good["✅ SIMCTL_CHILD_ prefix를 쓴 경우"]
+        B1["부모 셸<br/>export SIMCTL_CHILD_FORCE_LABS_ENABLED=0<br/>simctl launch &lt;bundle&gt;"]
+        B2["simctl<br/>SIMCTL_CHILD_ 접두 변수만<br/>prefix 떼고 자식에게 상속"]
+        B3["앱 프로세스<br/>ProcessInfo.environment['FORCE_LABS_ENABLED'] = '0'"]
+        B1 --> B2 --> B3
+    end
