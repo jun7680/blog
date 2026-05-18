@@ -1,0 +1,13 @@
+sequenceDiagram
+    autonumber
+    participant App as 내 앱 (Swift)
+    participant Session as LanguageModelSession
+    participant Model as 온디바이스 Foundation Model (~3B)
+
+    Note over App,Model: 모든 호출이 기기 내부에서 끝남 (네트워크 0, 비용 0)
+
+    App->>Session: LanguageModelSession()
+    App->>Session: respond(to: "여행 앱 이름 추천해줘.")
+    Session->>Model: 프롬프트 전달
+    Model-->>Session: 토큰 생성 결과
+    Session-->>App: response.content (String)

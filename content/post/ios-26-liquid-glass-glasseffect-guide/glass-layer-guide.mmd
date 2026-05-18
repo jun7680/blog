@@ -1,0 +1,26 @@
+flowchart TB
+    subgraph Nav["Navigation Layer ✅ glassEffect OK"]
+        N1[Navigation Bar]
+        N2[Tab Bar]
+        N3[Toolbar / Floating Button]
+    end
+
+    subgraph Content["Content Layer ❌ glassEffect 금지"]
+        C1[List Row]
+        C2[Table Cell]
+        C3[본문 텍스트 · 미디어]
+    end
+
+    subgraph Base["Base Layer (배경)"]
+        B1[Background Image / Color]
+    end
+
+    Nav -.뜬다.-> Content
+    Content -.얹힌다.-> Base
+
+    classDef ok fill:#d4f7dc,stroke:#2e7d32,color:#1b5e20
+    classDef no fill:#ffd6d6,stroke:#c62828,color:#b71c1c
+    classDef base fill:#eceff1,stroke:#546e7a,color:#263238
+    class Nav,N1,N2,N3 ok
+    class Content,C1,C2,C3 no
+    class Base,B1 base

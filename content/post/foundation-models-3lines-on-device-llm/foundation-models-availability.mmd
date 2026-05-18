@@ -1,0 +1,10 @@
+flowchart TD
+    Start([호출 직전]) --> Check{SystemLanguageModel.default.availability}
+    Check -->|.available| Call[session.respond 호출 OK]
+    Check -->|.unavailable&#40;.deviceNotEligible&#41;| Fallback1[기기 미지원 안내<br/>예: iPhone 15 Pro 미만]
+    Check -->|.unavailable&#40;.appleIntelligenceNotEnabled&#41;| Fallback2[설정에서 Apple Intelligence<br/>켜달라고 유도]
+    Check -->|.unavailable&#40;.modelNotReady&#41;| Fallback3[모델 다운로드 대기 중<br/>나중에 다시 시도]
+    Call --> Done([응답 사용])
+    Fallback1 --> Done
+    Fallback2 --> Done
+    Fallback3 --> Done

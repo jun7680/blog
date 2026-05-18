@@ -1,0 +1,22 @@
+flowchart LR
+    subgraph OO["ObservableObject (객체 단위 broadcast)"]
+        direction TB
+        S1["store.name 변경"] --> P1["objectWillChange 발화"]
+        P1 --> V1A["View A<br/>(name 사용)<br/>재평가"]
+        P1 --> V1B["View B<br/>(age 사용)<br/>재평가 ❗불필요"]
+        P1 --> V1C["View C<br/>(cache 사용)<br/>재평가 ❗불필요"]
+    end
+
+    subgraph OB["@Observable (property 단위 tracking)"]
+        direction TB
+        S2["store.name 변경"] --> T2["name 의존성 등록한<br/>view만 추림"]
+        T2 --> V2A["View A<br/>(name 사용)<br/>재평가 ✅"]
+        T2 -.skip.-> V2B["View B<br/>(age 사용)<br/>건너뜀"]
+        T2 -.skip.-> V2C["View C<br/>(cache 사용)<br/>건너뜀"]
+    end
+
+    style V1B fill:#fee,stroke:#c33
+    style V1C fill:#fee,stroke:#c33
+    style V2A fill:#efe,stroke:#3a3
+    style V2B fill:#eee,stroke:#999,color:#999
+    style V2C fill:#eee,stroke:#999,color:#999

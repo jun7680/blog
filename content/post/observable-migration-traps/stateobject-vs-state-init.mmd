@@ -1,0 +1,18 @@
+sequenceDiagram
+    participant Parent as 부모 View
+    participant Struct as UserView struct
+    participant Store as UserStore 인스턴스
+
+    Note over Parent,Store: @StateObject — view life당 1회 평가
+    Parent->>Struct: init (1회차)
+    Struct->>Store: autoclosure 평가 → 새 인스턴스
+    Parent->>Struct: init (2회차, 부모 re-render)
+    Note right of Struct: autoclosure 다시 평가하지 않음
+    Struct-->>Store: 기존 인스턴스 그대로 유지 ✅
+
+    Note over Parent,Store: @State — 매 init마다 즉시 평가
+    Parent->>Struct: init (1회차)
+    Struct->>Store: UserStore() 즉시 생성
+    Parent->>Struct: init (2회차, 부모 re-render)
+    Struct->>Store: UserStore() 또 즉시 생성 ❗
+    Note right of Store: 상태 유실 위험<br/>해결: _store = State(initialValue:)

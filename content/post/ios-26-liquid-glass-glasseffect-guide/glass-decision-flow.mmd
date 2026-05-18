@@ -1,0 +1,18 @@
+flowchart TD
+    Start([UI 요소에<br/>.glassEffect 발라도 될까?]) --> Q1{어느 레이어인가?}
+    Q1 -->|Navigation / Toolbar / 떠 있는 컨트롤| OK[✅ 적용 OK<br/>.glassEffect 한 줄로 끝]
+    Q1 -->|List / Table / 본문 콘텐츠| NO[❌ 적용 금지<br/>시각 위계 무너짐]
+    Q1 -->|배경 / Base| BG[그냥 두기<br/>뒤에 깔리는 레이어는 glass 대상 아님]
+
+    OK --> Shape{모양은?}
+    Shape -->|기본 알약| Cap[.capsule]
+    Shape -->|원형 아이콘| Cir[.circle]
+    Shape -->|타원| Ell[.ellipse]
+    Shape -->|사각·자동 corner| Rec[.rect]
+
+    classDef ok fill:#d4f7dc,stroke:#2e7d32
+    classDef no fill:#ffd6d6,stroke:#c62828
+    classDef neutral fill:#eceff1,stroke:#546e7a
+    class OK,Cap,Cir,Ell,Rec ok
+    class NO no
+    class BG neutral
