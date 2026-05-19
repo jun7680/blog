@@ -302,7 +302,7 @@ button { font-family: inherit; cursor: pointer; }
 .post-row__category {
   font-family: var(--font-mono);
   font-size: 11px; font-weight: 600;
-  text-transform: uppercase; letter-spacing: 0.08em;
+  letter-spacing: 0.04em;
   color: var(--ink);
   padding: 4px 8px;
   border: 1px solid var(--rule);
@@ -943,4 +943,10 @@ article img { cursor: zoom-in; }
   .card--collapsible .tags {
     animation: none;
   }
+}
+
+/* 카테고리는 원형 표기 유지 (iOS, MCP, UIKit 등) — 컨테이너의 uppercase 오버라이드 */
+.meta-cat {
+  text-transform: none;
+  letter-spacing: 0.02em;
 }
