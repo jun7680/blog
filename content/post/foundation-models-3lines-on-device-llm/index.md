@@ -3,7 +3,7 @@ author = "오깅중"
 title = "Foundation Models, Swift 3줄로 온디바이스 LLM 호출하기"
 date = "2026-05-18T08:10:00+09:00"
 description = "iOS 26 Foundation Models 프레임워크 덕분에 OpenAI API 키도, 비용 청구서도 없이 Swift 3줄로 온디바이스 LLM을 호출할 수 있다. 첫인상을 정리해본다."
-categories = ["ios", "ai"]
+categories = ["iOS", "AI"]
 tags = ["Foundation Models", "Apple Intelligence", "온디바이스 LLM", "iOS 26", "Swift", "@Generable", "LLM"]
 slug = "foundation-models-3lines-on-device-llm"
 +++

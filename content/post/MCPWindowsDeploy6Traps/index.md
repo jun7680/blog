@@ -3,7 +3,7 @@ author = "오깅중"
 title = "MCP 서버 비개발자 동료에게 배포하다 Windows에서 6번 죽었다"
 date = "2026-05-19T10:00:00+09:00"
 description = "macOS에선 한 줄로 끝나는데 Windows만 함정 6개. Claude Desktop MCP 서버 배포 삽질 기록."
-categories = ["mcp", "windows"]
+categories = ["MCP", "Windows"]
 tags = ["MCP", "Claude Desktop", "Windows", "PowerShell", "PyPI", "uv", "FastMCP", "kakao-moment-mcp", "cp949", "오픈소스"]
 slug = "mcp-windows-deploy-6-traps"
 +++

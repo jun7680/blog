@@ -4,7 +4,7 @@ title = "xcrun simctl launch에 환경변수 안 먹던 이야기"
 slug = "simctl-launch-env-vars"
 date = 2026-05-18
 description = "simctl launch 뒤에 KEY=VAL 적어줬는데 ProcessInfo.environment가 계속 nil이었던 이유, 그리고 SIMCTL_CHILD_ prefix."
-categories = ["ios"]
+categories = ["iOS"]
 tags = ["xcrun", "simctl", "iOS Simulator", "ProcessInfo", "환경변수", "QA 자동화", "SIMCTL_CHILD"]
 image = ""
 +++
