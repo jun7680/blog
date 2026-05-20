@@ -1,0 +1,18 @@
+sequenceDiagram
+    participant OS as iOS / Push
+    participant App as AppDelegate
+    participant Q as DispatchQueue.main
+    participant State as appIsReady()
+    participant Router as Router
+
+    OS->>App: didReceiveRemoteNotification(url)
+    App->>State: appIsReady()?
+    State-->>App: false
+    App->>Q: asyncAfter(+100ms) attempt=1
+    Q->>State: appIsReady()?
+    State-->>Q: false
+    Q->>Q: asyncAfter(+100ms) attempt=2
+    Note over Q,State: ... 최대 30회 (~3초 cap)
+    Q->>State: appIsReady()?
+    State-->>Q: true
+    Q->>Router: router.route(to: url)

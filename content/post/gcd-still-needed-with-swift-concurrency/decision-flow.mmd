@@ -1,0 +1,6 @@
+flowchart TD
+    Start([어떤 동시성 도구를 쓸까]) --> Q1{Concurrency가<br/>표현할 수 있는 문제인가}
+    Q1 -- 아니오 --> GCD1[GCD 유지<br/>sync 콜백 / thread identity / RW lock / C 콜백]
+    Q1 -- 예 --> Q2{굳이 옮길<br/>이유가 있는가}
+    Q2 -- 아니오 --> GCD2[GCD 유지<br/>폴링 / fire-and-forget / 정밀 타이머]
+    Q2 -- 예 --> SC[Swift Concurrency로 이전]
