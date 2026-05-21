@@ -1,6 +1,6 @@
 +++
 author = "오깅중"
-title = "SwiftUI onChange 안에서 state 다시 건드리다 무한 루프 돈 얘기"
+title = "SwiftUI onChange 안에서 state 다시 set하면 무한 루프 돈다"
 slug = "swiftui-onchange-infinite-loop"
 date = "2026-05-21T13:33:28+09:00"
 description = "SwiftUI onChange 안에서 감시 중인 state를 다시 set하면 어떻게 무한 호출이 도는지 어떤 식으로 끊었는지 정리한 글"
