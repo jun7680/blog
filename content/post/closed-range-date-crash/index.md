@@ -2,7 +2,7 @@
 author = "오깅중"
 title = "Swift ClosedRange<Date> 한 줄 때문에 한 달간 헤맨 이야기"
 slug = "closed-range-date-crash"
-date = "2026-05-26T14:00:00+09:00"
+date = "2026-05-26T10:30:00+09:00"
 description = "Swift ClosedRange<Date>의 precondition trap을 따라가다 보니, 진짜 범인은 캘린더 데이터 매핑에서 가드 변수를 안 쓴 한 줄이었다. 데이터·표현 두 레이어로 막은 회고."
 categories = ["Swift"]
 tags = ["Swift", "ClosedRange", "Date", "Crash", "EXC_BREAKPOINT", "Debugging", "Crashlytics"]
