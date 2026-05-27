@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#111827"/>
+      <stop offset="100%" stop-color="#1f2937"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#34d399"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" rx="28" fill="url(#background)"/>
+  <rect x="68" y="58" width="178" height="42" rx="21" fill="#0f766e"/>
+  <text x="157" y="86" text-anchor="middle" fill="#ecfeff" font-family="-apple-system, BlinkMacSystemFont, Arial, sans-serif" font-size="21" font-weight="600">SwiftUI memo</text>
+  <text x="70" y="193" fill="#f9fafb" font-family="-apple-system, BlinkMacSystemFont, Arial, sans-serif" font-size="58" font-weight="700">TextField 숫자 입력</text>
+  <text x="70" y="265" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, Arial, sans-serif" font-size="32">입력 중 String  →  저장할 때 Int</text>
+  <rect x="70" y="344" width="475" height="106" rx="18" fill="#ffffff"/>
+  <text x="99" y="380" fill="#64748b" font-family="-apple-system, BlinkMacSystemFont, Arial, sans-serif" font-size="18">수량</text>
+  <text x="99" y="425" fill="#0f172a" font-family="-apple-system, BlinkMacSystemFont, Arial, sans-serif" font-size="38" font-weight="600">25</text>
+  <rect x="96" y="435" width="416" height="3" fill="url(#accent)"/>
+  <rect x="590" y="343" width="532" height="108" rx="20" fill="#0b1220" stroke="#334155" stroke-width="2"/>
+  <text x="621" y="388" fill="#7dd3fc" font-family="SFMono-Regular, Menlo, monospace" font-size="24">@State</text>
+  <text x="744" y="388" fill="#e5e7eb" font-family="SFMono-Regular, Menlo, monospace" font-size="24">draftText: String</text>
+  <text x="621" y="425" fill="#6ee7b7" font-family="SFMono-Regular, Menlo, monospace" font-size="24">commit()</text>
+  <text x="771" y="425" fill="#e5e7eb" font-family="SFMono-Regular, Menlo, monospace" font-size="24">quantity: Int</text>
+  <rect x="70" y="548" width="1060" height="2" fill="#334155"/>
+  <text x="70" y="591" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, Arial, sans-serif" font-size="20">오깅중 · iOS 개발 메모</text>
+</svg>
