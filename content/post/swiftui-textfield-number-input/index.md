@@ -30,7 +30,7 @@ struct QuantityForm: View {
 
 이 코드가 틀린 건 아니다. 이미 유효한 숫자가 있고 사용자가 입력을 마치면 바로 모델에 넣어도 되는 폼에서는 짧고 읽기 좋다.
 
-다만 Apple의 [`TextField` 문서](https://developer.apple.com/documentation/swiftui/textfield)는 `String` 바인딩은 타이핑하는 동안 계속 갱신되지만 숫자 같은 non-string 타입은 사용자가 편집을 확정할 때 값이 갱신된다고 설명한다. 게다가 [`value:format:` initializer 문서](https://developer.apple.com/documentation/swiftui/textfield/init%28value%3Aformat%3Aprompt%3Alabel%3A%29-99ntf)에 따르면 형식에 맞지 않는 상태로 편집을 끝내면 필드의 텍스트가 마지막 유효 값으로 돌아간다.
+다만 Apple은 [`TextField`](https://developer.apple.com/documentation/swiftui/textfield)에서 `String` 바인딩은 타이핑하는 동안 계속 갱신되지만 숫자 같은 non-string 타입은 사용자가 편집을 확정할 때 값이 갱신된다고 설명한다. 또 [`value:format:` initializer](https://developer.apple.com/documentation/swiftui/textfield/init%28value%3Aformat%3Aprompt%3Alabel%3A%29-99ntf)에 따르면 형식에 맞지 않는 상태로 편집을 끝내면 필드의 텍스트가 마지막 유효 값으로 돌아간다.
 
 `12`를 지우고 `25`를 적는 동안에는 빈 문자열도 잠깐 필요하고, 붙여넣기로 `2a`가 들어오는 순간도 있을 수 있다. 입력창 입장에서는 자연스러운 중간 상태인데 `Int` 입장에서는 전부 들어올 수 없는 값이다.
 
