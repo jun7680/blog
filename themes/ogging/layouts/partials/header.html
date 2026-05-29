@@ -2,13 +2,15 @@
   <div class="site-header__inner">
     <a href="{{ site.BaseURL }}" class="wordmark" aria-label="{{ site.Title }} 홈">
       <span>{{ site.Title }}</span>
-      <span class="wordmark__cursor" aria-hidden="true"></span>
-      <span class="wordmark__mono">/ {{ site.Params.wordmarkSuffix | default "ogging.dev" }}</span>
+      <span class="wordmark__divider">/</span>
+      <span class="wordmark__mono">{{ site.Params.wordmarkSuffix | default "ogging.dev" }}</span>
     </a>
     <nav class="site-nav" id="site-nav">
       {{ $current := .RelPermalink }}
       {{ range site.Menus.main }}
+        {{ if ne .Name "Categories" }}
         <a href="{{ .URL }}" {{ if or (eq $current .URL) (and (eq .URL "/") $.IsHome) }}class="is-active"{{ end }}>{{ .Name }}</a>
+        {{ end }}
       {{ else }}
         <a href="/" {{ if .IsHome }}class="is-active"{{ end }}>Home</a>
         <a href="/archives/">Archives</a>
@@ -17,9 +19,14 @@
       {{ end }}
     </nav>
     <div class="header-tools">
+      {{ if .IsHome }}
+      <div class="density-toggle" aria-label="글 목록 밀도">
+        <button class="density-toggle__btn is-active" type="button" data-density="comfort" title="List">▤</button>
+        <button class="density-toggle__btn" type="button" data-density="compact" title="Compact">≡</button>
+      </div>
+      {{ end }}
       <button class="search-btn" id="search-btn" type="button" aria-label="검색 열기">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-        <span class="search-btn__label">검색</span>
+        <span class="search-btn__label">Search posts</span>
         <kbd>⌘K</kbd>
       </button>
       <button class="nav-toggle" id="nav-toggle" type="button" aria-label="메뉴 열기/닫기" aria-controls="site-nav" aria-expanded="false">

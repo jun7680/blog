@@ -1,45 +1,6 @@
 <footer class="site-footer">
-  <div class="site-footer__inner">
-    <div class="footer-block">
-      <pre class="footer-ascii">{{ site.Params.footerAscii | default `  ┌─────────────────┐
-  │  오깅중 / og_   │
-  │  ████████░░ 80% │
-  │  status: typing │
-  └─────────────────┘` | safeHTML }}</pre>
-      <p style="font-size: 13px; color: var(--ink-2); margin: 0; max-width: 40ch;">
-        {{ site.Params.footerLine | default "iOS, Swift, 그리고 가끔 다른 것들." | safeHTML }}
-      </p>
-    </div>
-    <div class="footer-block">
-      <h4>NAVIGATE</h4>
-      <ul>
-        {{ range site.Menus.main }}
-          <li><a href="{{ .URL }}">{{ .Name }}</a></li>
-        {{ else }}
-          <li><a href="/">Home</a></li>
-          <li><a href="/archives/">Archives</a></li>
-          <li><a href="/tags/">Tags</a></li>
-          <li><a href="/about/">About</a></li>
-        {{ end }}
-      </ul>
-    </div>
-    <div class="footer-block">
-      <h4>ELSEWHERE</h4>
-      <ul>
-        {{ range site.Params.social }}
-          <li><a href="{{ .url }}" {{ if not (hasPrefix .url "mailto:") }}target="_blank" rel="noopener"{{ end }}>{{ .name }} ↗</a></li>
-        {{ end }}
-        <li><a href="{{ "index.xml" | absURL }}">RSS ↗</a></li>
-      </ul>
-    </div>
-  </div>
   <div class="footer-baseline">
-    <span>© {{ site.Params.startYear | default 2020 }}–{{ now.Year }} {{ site.Title }}</span>
-    <span class="footer-legal">
-      {{ range site.Menus.footer }}
-        <a href="{{ .URL }}">{{ .Name }}</a>
-      {{ end }}
-    </span>
-    <span>BUILT WITH ☕ / HOSTED ON GITHUB PAGES</span>
+    <span><i class="build-dot"></i> BUILD SUCCEEDED · © {{ site.Params.startYear | default 2020 }}–{{ now.Year }} {{ site.Title }}</span>
+    <span>BUILT WITH ☕ · HOSTED ON GITHUB PAGES</span>
   </div>
 </footer>

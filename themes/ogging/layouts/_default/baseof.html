@@ -1,22 +1,14 @@
 <!DOCTYPE html>
-<html lang="{{ site.LanguageCode | default "ko" }}" data-theme="dark">
+<html lang="{{ site.Language.Locale | default "ko" }}" data-theme="dark">
 <head>
 {{ partial "head.html" . }}
 {{ partial "analytics.html" . }}
 </head>
-<body>
+<body class="{{ if .IsHome }}view-home{{ else if .IsPage }}view-article{{ else }}view-list{{ end }}">
 <div class="scroll-progress"><div id="progress-bar"></div></div>
 {{ partial "header.html" . }}
-<div class="site-tagline" role="doc-subtitle">
-  <span class="site-tagline__bracket">[</span>
-  <span class="site-tagline__text">AI보다 빨리 디버깅하기</span>
-  <span class="site-tagline__bracket">]</span>
-</div>
-<main class="page">
-  <div>
-    {{ block "main" . }}{{ end }}
-  </div>
-  {{ partial "sidebar/index.html" . }}
+<main class="site-main">
+  {{ block "main" . }}{{ end }}
 </main>
 {{ partial "footer.html" . }}
 {{ partial "palette.html" . }}

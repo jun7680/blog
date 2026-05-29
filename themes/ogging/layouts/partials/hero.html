@@ -1,21 +1,21 @@
 {{ with . }}
 {{ $cat := index .Params.categories 0 | default "POST" }}
+{{ $catClass := $cat | lower | urlize }}
 {{ $read := math.Max 1 (math.Ceil (div (countwords .Plain | int) 350)) | int }}
-<section class="hero">
+<section class="hero cat--{{ $catClass }}">
   <a class="hero__link" href="{{ .RelPermalink }}" aria-label="{{ .Title }} — 글 읽기"></a>
   <div class="hero__meta">
-    <span class="hero__badge">LATEST</span>
-    <span class="meta-cat">{{ $cat }}</span>
-    <span>·</span>
-    <span>{{ .Date.Format "Jan 02, 2006" | upper }}</span>
-    <span>·</span>
-    <span>{{ $read }}분 읽기</span>
+    <span class="cat-dot"></span>
+    <span>LATEST · {{ $cat | upper }}</span>
   </div>
   <h1 class="hero__title">{{ .Title }}</h1>
   {{ with .Description }}<p class="hero__desc">{{ . }}</p>{{ end }}
-  <span class="hero__cta" aria-hidden="true">
-    <span>READ POST</span>
-    <span class="arrow">→</span>
-  </span>
+  <div class="hero__foot" aria-hidden="true">
+    <span>{{ .Date.Format "Jan 02, 2006" | upper }}</span>
+    <span>·</span>
+    <span>{{ $read }} MIN READ</span>
+    <span>·</span>
+    <span class="hero__cta">READ →</span>
+  </div>
 </section>
 {{ end }}

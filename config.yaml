@@ -25,7 +25,8 @@ markup:
   highlight:
     noClasses: false
     style: github-dark
-    lineNos: false
+    lineNos: true
+    lineNumbersInTable: true
     codeFences: true
   tableOfContents:
     endLevel: 4

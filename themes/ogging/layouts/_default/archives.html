@@ -4,13 +4,13 @@
 {{ $sorted := $pages.ByDate.Reverse }}
 {{ $byYear := $sorted.GroupByDate "2006" }}
 
-<section class="archives">
-  <div class="section-label">
-    <span>{{ .Title | upper }} / ALL</span>
-    <span class="section-label__rule"></span>
-    <span class="section-label__count">{{ printf "%02d" (len $sorted) }}</span>
+<section class="listing archives">
+  <div class="listing__head">
+    <h1>{{ .Title | upper }} / ALL</h1>
+    <span>{{ printf "%02d" (len $sorted) }}</span>
   </div>
 
+  <div class="archive-content">
   {{ range $byYear }}
   <div class="archive-year">
     <div class="archive-year__head">
@@ -25,5 +25,6 @@
     </div>
   </div>
   {{ end }}
+  </div>
 </section>
 {{ end }}

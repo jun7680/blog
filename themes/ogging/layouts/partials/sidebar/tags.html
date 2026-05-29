@@ -1,15 +1,11 @@
 {{ $tags := site.Taxonomies.tags }}
 {{ if $tags }}
-<details class="card card--collapsible" id="tags">
-  <summary class="card__head card__head--toggle">
-    <span class="card__title">TAGS</span>
-    <span class="card__aux">{{ len $tags }}</span>
-    <span class="card__chevron" aria-hidden="true">▾</span>
-  </summary>
-  <div class="tags">
-    {{ range $name, $value := $tags }}
-      <a class="tag" href="{{ "/tags/" | relURL }}{{ $name | urlize }}/">#{{ $name }}<span class="tag__count">{{ len $value.Pages }}</span></a>
+<section class="side-section" id="tags">
+  <h2 class="side-section__title">TAGS · {{ len $tags }}</h2>
+  <div class="side-tags">
+    {{ range first 12 $tags.ByCount }}
+      <a class="tag" href="{{ .Page.RelPermalink }}">#{{ .Term }} <span>{{ .Count }}</span></a>
     {{ end }}
   </div>
-</details>
+</section>
 {{ end }}

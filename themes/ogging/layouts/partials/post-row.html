@@ -1,16 +1,24 @@
 {{ $post := .post }}
 {{ $idx := .idx }}
 {{ $cat := index $post.Params.categories 0 | default "POST" }}
+{{ $catClass := $cat | lower | urlize }}
 {{ $read := math.Max 1 (math.Ceil (div (countwords $post.Plain | int) 350)) | int }}
-<a class="post-row" href="{{ $post.RelPermalink }}">
-  <div class="post-row__index">P_{{ printf "%03d" $idx }}</div>
-  <div class="post-row__category">{{ $cat }}</div>
-  <div>
-    <h3 class="post-row__title">{{ $post.Title }}</h3>
-    {{ with $post.Description }}<p class="post-row__sub">{{ . }}</p>{{ end }}
+<a class="post-row cat--{{ $catClass }}" href="{{ $post.RelPermalink }}">
+  <div class="post-row__eyebrow">
+    <span class="post-row__index">P_{{ printf "%03d" $idx }}</span>
+    <span>·</span>
+    <span class="post-row__category">{{ $cat | upper }}</span>
   </div>
-  <div class="post-row__meta">
-    <b>{{ $post.Date.Format "Jan 02, 2006" | upper }}</b>
-    <span>{{ $read }} MIN</span>
+  <div class="post-row__copy">
+    <h3 class="post-row__title">{{ $post.Title }}</h3>
+    {{ with $post.Description }}<p class="post-row__excerpt">{{ . }}</p>{{ end }}
+  </div>
+  <div class="post-row__foot">
+    <span>{{ $post.Date.Format "Jan 02, 2006" | upper }} · {{ $read }} MIN</span>
+    <div class="post-row__tags">
+      {{ with $post.Params.tags }}
+        {{ range first 3 . }}<span>#{{ . | lower }}</span>{{ end }}
+      {{ end }}
+    </div>
   </div>
 </a>

@@ -1,20 +1,57 @@
 {{ define "main" }}
 {{ $cat := index .Params.categories 0 | default "POST" }}
+{{ $catClass := $cat | lower | urlize }}
 {{ $read := math.Max 1 (math.Ceil (div (countwords .Plain | int) 350)) | int }}
-<article class="article reveal-in">
-  <header class="article__header">
-    <div class="article__meta">
-      <span class="meta-cat">{{ $cat }}</span>
-      <span>·</span>
-      <span>{{ .Date.Format "Jan 02, 2006" | upper }}</span>
-      <span>·</span>
-      <span>{{ $read }}분 읽기</span>
+<div class="article-layout cat--{{ $catClass }}">
+  <article class="article reveal-in">
+    <nav class="breadcrumb" aria-label="breadcrumb">
+      <a href="{{ "/" | relURL }}">← HOME</a>
+      <span>/</span>
+      <span class="breadcrumb__cat">{{ $cat | upper }}</span>
+      <span>/</span>
+      <span>P_{{ .Date.Format "060102" }}</span>
+    </nav>
+    <pre class="file-header">//  {{ .Slug }}.swift
+//  {{ site.Params.wordmarkSuffix | default "ogging.dev" }} / {{ $cat }}
+//  {{ .Date.Format "Jan 02, 2006" | upper }} · {{ $read }} min read
+//  {{ range $i, $tag := .Params.tags }}{{ if $i }}, {{ end }}#{{ $tag | lower }}{{ end }}</pre>
+    <header class="article__header">
+      <h1 class="article__title">{{ .Title }}</h1>
+      {{ with .Description }}<p class="article__desc">{{ . }}</p>{{ end }}
+      <div class="article__meta">
+        <span>{{ .Date.Format "Jan 02, 2006" | upper }} · {{ $read }} MIN READ</span>
+        <div class="article__tags">
+          {{ with .Params.tags }}
+            {{ range first 4 . }}<span>#{{ . | lower }}</span>{{ end }}
+          {{ end }}
+        </div>
+      </div>
+    </header>
+    <div class="article__body">
+      {{ .Content }}
     </div>
-    <h1 class="article__title">{{ .Title }}</h1>
-    {{ with .Description }}<p class="article__desc">{{ . }}</p>{{ end }}
-  </header>
-  <div class="article__body">
-    {{ .Content }}
-  </div>
-</article>
+    <nav class="article-nav" aria-label="이전 및 다음 글">
+      {{ with .PrevInSection }}
+      <a class="article-nav__card" href="{{ .RelPermalink }}">
+        <span>← PREVIOUS FILE</span>
+        <strong>{{ .Title }}</strong>
+      </a>
+      {{ end }}
+      {{ with .NextInSection }}
+      <a class="article-nav__card article-nav__card--next" href="{{ .RelPermalink }}">
+        <span>NEXT FILE →</span>
+        <strong>{{ .Title }}</strong>
+      </a>
+      {{ end }}
+    </nav>
+  </article>
+  <aside class="toc">
+    <p class="toc__title">ON THIS PAGE</p>
+    {{ .TableOfContents }}
+    <div class="reading-card">
+      <span>READING PROGRESS</span>
+      <strong id="reading-progress">0%</strong>
+    </div>
+  </aside>
+</div>
 {{ end }}

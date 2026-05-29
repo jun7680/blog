@@ -1,17 +1,12 @@
 {{ $a := site.Params.author }}
-<div class="card" id="about">
-  <div class="card__head">
-    <span class="card__title">ABOUT</span>
-    <span class="card__aux">v2.0</span>
-  </div>
+<section class="side-section" id="about">
+  <h2 class="side-section__title">ABOUT</h2>
   <h3 class="about__name">{{ $a.name | default site.Title }}</h3>
   {{ with $a.role }}<p class="about__role">{{ . }}</p>{{ end }}
+  <pre class="about-ascii">┌─────────────────┐
+│ <b>오깅중 / og_</b>   │
+│ <i>████████░░</i> 80% │
+│ status: typing  │
+└─────────────────┘</pre>
   {{ with $a.bio }}<p class="about__bio">{{ . | safeHTML }}</p>{{ end }}
-  {{ with site.Params.social }}
-  <div class="about__links">
-    {{ range . }}
-      <a class="pill-link" href="{{ .url }}" {{ if not (hasPrefix .url "mailto:") }}target="_blank" rel="noopener"{{ end }}>{{ .name }} ↗</a>
-    {{ end }}
-  </div>
-  {{ end }}
-</div>
+</section>

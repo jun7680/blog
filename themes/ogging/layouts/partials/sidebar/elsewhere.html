@@ -1,0 +1,11 @@
+<section class="side-section">
+  <h2 class="side-section__title">ELSEWHERE</h2>
+  <div class="elsewhere">
+    {{ range site.Params.social }}
+      {{ if or (eq .name "GitHub") (eq .name "Email") }}
+      <a href="{{ .url }}" {{ if not (hasPrefix .url "mailto:") }}target="_blank" rel="noopener"{{ end }}>{{ .name }} <span>↗</span></a>
+      {{ end }}
+    {{ end }}
+    <a href="{{ "index.xml" | absURL }}">RSS <span>↗</span></a>
+  </div>
+</section>
